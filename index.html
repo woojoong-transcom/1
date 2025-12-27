@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>국군수송사령부 진급시 교육훈련 성적 종합</title>
+    <style>
+        :root { --primary: #2c3e50; --accent: #27ae60; --bg: #f4f7f6; }
+        body { font-family: 'Pretendard', sans-serif; background: var(--bg); padding: 20px; color: var(--primary); }
+        .container { max-width: 950px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        h1 { text-align: center; border-bottom: 3px solid var(--primary); padding-bottom: 15px; margin-bottom: 30px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th { background: var(--primary); color: white; padding: 12px; font-size: 0.95rem; }
+        td { padding: 12px; border-bottom: 1px solid #ddd; text-align: center; }
+        tr:hover { background-color: #f9f9f9; }
+        input[type="number"], select { width: 90%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; text-align: center; font-size: 1rem; }
+        .grade-badge { padding: 5px 10px; border-radius: 5px; font-weight: bold; background: #34495e; color: white; display: inline-block; min-width: 60px; }
+        .point-display { font-weight: bold; color: #d35400; font-size: 1.1rem; }
+        .result-box { margin-top: 30px; padding: 25px; background: #e9ecef; border-radius: 12px; text-align: center; }
+        .total-score { font-size: 3rem; font-weight: bold; color: var(--accent); margin-top: 10px; }
+        .sub-text { color: #666; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🎖 국군수송사령부 진급시 교육훈련 성적 종합</h1>
+    
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 25%;">과목명</th>
+                <th style="width: 15%;">점수(0~100)</th>
+                <th style="width: 20%;">또는 등급 선택</th>
+                <th style="width: 20%;">판정 등급</th>
+                <th style="width: 20%;">환산 점수</th>
+            </tr>
+        </thead>
+        <tbody id="subjectTable">
+            </tbody>
+    </table>
+
+    <div class="result-box">
+        <div class="sub-text">모든 과목 환산 점수 합계</div>
+        <div class="total-score"><span id="totalDisplay">0.00</span> <span style="font-size: 1.5rem; color: #7f8c8d;">/ 70.00</span></div>
+    </div>
+</div>
+
+<script>
+    // 과목별 정밀 배점 데이터
+    const scoreData = {
+        "정신전력": { "특급": 10, "1급": 9.29, "2급": 8.58, "3급": 7.15, "3급 미만": 5.72, "불합격": 4.29 },
+        "기초체력": { "특급": 10, "1급": 9.29, "2급": 8.58, "3급": 7.15, "3급 미만": 5.72, "불합격": 4.29 },
+        "사격": { "특급": 10, "1급": 9.29, "2급": 8.58, "3급": 7.15, "3급 미만": 5.72, "불합격": 4.29 },
+        "핵 및 화생방 개인보호": { "특급": 5, "1급": 4.65, "2급": 4.29, "3급": 3.58, "3급 미만": 2.56, "불합격": 2.15 },
+        "TCCC": { "특급": 5, "1급": 4.65, "2급": 4.29, "3급": 3.58, "3급 미만": 2.56, "불합격": 2.15 },
+        "주특기": { "특급": 30, "1급": 27.86, "2급": 25.72, "3급": 21.43, "3급 미만": 17.15, "불합격": 12.86 }
+    };
+
+    const subjects = Object.keys(scoreData);
+
+    function getGradeFromScore(score) {
+        if (score === "" || score === null) return "";
+        const s = parseFloat(score);
+        if (s >= 90) return "특급";
+        if (s >= 80) return "1급";
+        if (s >= 70) return "2급";
+        if (s >= 60) return "3급";
+        if (s > 0) return "3급 미만";
+        return "불합격";
+    }
+
+    function init() {
+        const table = document.getElementById('subjectTable');
+        subjects.forEach((sub, idx) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><strong>${sub}</strong></td>
+                <td><input type="number" class="score-in" min="0" max="100" placeholder="0-100" oninput="updateRow(${idx}, 'score')"></td>
+                <td>
+                    <select class="grade-in" onchange="updateRow(${idx}, 'grade')">
+                        <option value="">선택</option>
+                        <option value="특급">특급</option>
+                        <option value="1급">1급</option>
+                        <option value="2급">2급</option>
+                        <option value="3급">3급</option>
+                        <option value="3급 미만">3급 미만</option>
+                        <option value="불합격">불합격</option>
+                    </select>
+                </td>
+                <td><span class="converted-grade">-</span></td>
+                <td><span class="point-display">0.00</span></td>
+            `;
+            table.appendChild(row);
+        });
+    }
+
+    function updateRow(index, type) {
+        const rows = document.querySelectorAll('#subjectTable tr');
+        const subjectName = subjects[index];
+        const scoreIn = rows[index].querySelector('.score-in');
+        const gradeIn = rows[index].querySelector('.grade-in');
+        const gradeArea = rows[index].querySelector('.converted-grade');
+        const pointArea = rows[index].querySelector('.point-display');
+
+        let grade = "";
+        if (type === 'score') {
+            gradeIn.value = "";
+            grade = getGradeFromScore(scoreIn.value);
+        } else {
+            scoreIn.value = "";
+            grade = gradeIn.value;
+        }
+
+        const point = grade ? scoreData[subjectName][grade] : 0;
+        
+        gradeArea.innerHTML = grade ? `<span class="grade-badge">${grade}</span>` : "-";
+        pointArea.innerText = point.toFixed(2);
+
+        calculateTotal();
+    }
+
+    function calculateTotal() {
+        const points = document.querySelectorAll('.point-display');
+        let total = 0;
+        points.forEach(p => total += parseFloat(p.innerText));
+        document.getElementById('totalDisplay').innerText = total.toFixed(2);
+    }
+
+    init();
+</script>
+</body>
+</html>
