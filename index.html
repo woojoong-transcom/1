@@ -44,16 +44,16 @@
             background-image: url('background.jpg');
             background-size: cover; background-position: center;
             border-radius: 12px; border: 1px solid #ddd;
-            flex-shrink: 0; /* 로고 크기 고정 */
+            flex-shrink: 0;
         }
 
         h1 { 
             margin: 0; 
-            font-size: 2.1rem; /* 한 줄 최대 크기 */
+            font-size: 2.1rem; 
             font-weight: 900; 
-            letter-spacing: -1.5px; /* 한 줄 유지를 위한 자간 조절 */
+            letter-spacing: -1.5px; 
             color: #1a202c;
-            white-space: nowrap; /* 자동 줄바꿈 방지 */
+            white-space: nowrap;
         }
 
         .result-summary { 
@@ -65,25 +65,42 @@
         .total-score { font-size: 3.8rem; font-weight: 900; color: #2ecc71; margin: 0; line-height: 1; }
         .total-max { font-size: 0.85rem; opacity: 0.7; margin-top: 8px; }
 
-        /* 콘텐츠 영역 */
+        /* 콘텐츠 영역 및 애니메이션 */
         .content-area { padding: 20px 8px; box-sizing: border-box; }
         
         .swipe-notice {
             display: flex; align-items: center; justify-content: center;
-            font-size: 0.8rem; color: var(--text-muted);
+            font-size: 0.85rem; color: #3498db; font-weight: 600;
             margin-bottom: 10px;
+            animation: shakeHint 2s ease-in-out infinite; /* 흔들기 애니메이션 */
+        }
+
+        @keyframes shakeHint {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50% { transform: translateX(-5px); }
+            20%, 40% { transform: translateX(5px); }
         }
 
         .table-wrapper { 
             width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch;
             border: 1px solid #eee; border-radius: 14px; background: #fff;
+            /* 표 자체도 초기에 살짝 흔들려 시각적 힌트 제공 */
+            animation: tableShake 2s ease-in-out 1; 
+        }
+
+        @keyframes tableShake {
+            0% { transform: translateX(0); }
+            20% { transform: translateX(-8px); }
+            40% { transform: translateX(8px); }
+            60% { transform: translateX(-4px); }
+            80% { transform: translateX(4px); }
+            100% { transform: translateX(0); }
         }
 
         table { width: 100%; border-collapse: collapse; min-width: 520px; }
         th { background: #fbfbfc; padding: 15px 5px; font-size: 0.85rem; font-weight: 600; border-bottom: 2px solid #edf2f7; color: #64748b; }
         td { padding: 12px 4px; border-bottom: 1px solid #f1f5f9; text-align: center; vertical-align: middle; }
         
-        /* 입력창 디자인 */
         .score-input, .grade-select { 
             height: 46px; padding: 0 8px; border: 2px solid #e2e8f0; 
             border-radius: 10px; text-align: center; font-size: 0.95rem;
@@ -104,7 +121,6 @@
         }
         .point-display { font-weight: 800; color: #f59e0b; font-size: 1.15rem; }
         
-        /* 사용 팁 수정 */
         .info-card { 
             margin-top: 15px; padding: 18px; background: #f8fafc;
             border: 1px solid #e2e8f0; color: #475569; border-radius: 14px;
@@ -120,7 +136,7 @@
         .no-input-text { color: #2980b9; font-size: 0.8rem; font-weight: 700; }
 
         @media (max-width: 400px) {
-            h1 { font-size: 1.8rem; } /* 초소형 화면 대응 */
+            h1 { font-size: 1.8rem; }
             .total-score { font-size: 3.2rem; }
         }
     </style>
@@ -143,7 +159,7 @@
 
     <div class="content-area">
         <div class="swipe-notice">
-            <span>◀ 표를 좌우로 밀어서 입력하세요 ▶</span>
+            <span>◀ 표를 좌우로 밀어보세요 ▶</span>
         </div>
 
         <div class="table-wrapper">
@@ -151,7 +167,8 @@
                 <thead>
                     <tr>
                         <th style="width: 20%;">과목명</th>
-                        <th style="width: 22%;">점수 입력</th> <th style="width: 23%;">등급 선택</th>
+                        <th style="width: 22%;">점수 입력</th>
+                        <th style="width: 23%;">등급 선택</th>
                         <th style="width: 15%;">판정</th>
                         <th style="width: 20%;">환산점수</th>
                     </tr>
