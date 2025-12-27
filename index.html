@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>교육훈련 점수 종합 시스템</title>
     <style>
         :root { 
@@ -11,9 +11,12 @@
             --bg-color: #f1f3f5;
         }
 
-        body { 
-            font-family: -apple-system, 'Pretendard', sans-serif; 
+        /* 전체 화면이 좌우로 흔들리는 것을 방지 */
+        html, body { 
             margin: 0; padding: 0; 
+            width: 100%;
+            overflow-x: hidden; 
+            font-family: -apple-system, 'Pretendard', sans-serif; 
             background-color: var(--bg-color);
             color: var(--primary);
             display: flex;
@@ -22,11 +25,13 @@
         }
 
         .container { 
+            width: 95%; /* 모바일에서 좌우 여백 확보 */
             max-width: 700px; 
             margin: 20px auto; 
             background: white; border-radius: 16px; 
-            overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            flex: 1; /* 푸터를 하단에 고정하기 위함 */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            flex: 1;
+            box-sizing: border-box; /* 패딩이 너비에 영향을 주지 않도록 설정 */
         }
 
         /* 상단 헤더 */
@@ -62,13 +67,14 @@
             background: var(--primary);
             padding: 20px; border-radius: 12px; 
             color: white; text-align: center;
+            box-sizing: border-box;
         }
         .total-label { font-size: 0.85rem; opacity: 0.8; margin-bottom: 5px; }
         .total-score { font-size: 3.8rem; font-weight: 800; color: #2ecc71; margin: 0; line-height: 1; }
         .total-max { font-size: 0.85rem; opacity: 0.7; margin-top: 5px; }
 
         /* 테이블 및 스와이프 안내 */
-        .content-area { padding: 20px; }
+        .content-area { padding: 20px; box-sizing: border-box; }
         
         .swipe-notice {
             display: flex;
@@ -78,24 +84,26 @@
             font-size: 0.8rem;
             color: #888;
             margin-bottom: 8px;
-            animation: shake 2s infinite; /* 처음 접속 시 시선 집중을 위한 애니메이션 */
+            animation: shake 2s infinite;
         }
 
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
-            10%, 30%, 50% { transform: translateX(-5px); }
-            20%, 40% { transform: translateX(5px); }
+            10%, 30%, 50% { transform: translateX(-3px); }
+            20%, 40% { transform: translateX(3px); }
         }
 
+        /* 핵심: 오직 이 부분만 좌우 스크롤 허용 */
         .table-wrapper { 
             width: 100%; 
-            overflow-x: auto; 
+            overflow-x: auto; /* 내부 스크롤 허용 */
+            -webkit-overflow-scrolling: touch; /* iOS 부드러운 스크롤 */
             border: 1px solid #eee; 
             border-radius: 12px;
-            -webkit-overflow-scrolling: touch;
+            background: #fff;
         }
 
-        /* 스크롤바가 항상 보이게 하여 스와이프 가능함을 암시 */
+        /* 스크롤바 시각화 */
         .table-wrapper::-webkit-scrollbar { height: 6px; }
         .table-wrapper::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
 
@@ -106,11 +114,13 @@
         .score-input { 
             width: 75px; padding: 8px; border: 1.5px solid #ddd; 
             border-radius: 6px; text-align: center; font-size: 0.95rem;
+            -webkit-appearance: none; /* 모바일 기본 스타일 제거 */
         }
         
         .grade-select { 
             width: 105px; padding: 8px; border: 1.5px solid #ddd; 
             border-radius: 6px; font-size: 0.9rem; cursor: pointer;
+            background-color: white;
         }
 
         .grade-badge { padding: 4px 8px; border-radius: 4px; font-weight: bold; background: #34495e; color: white; font-size: 0.8rem; }
@@ -120,6 +130,7 @@
             margin-top: 15px; padding: 15px; background: #f8f9fa;
             border: 1px solid #eee; color: #666; border-radius: 10px;
             font-size: 0.85rem; line-height: 1.6;
+            box-sizing: border-box;
         }
 
         /* 하단 푸터 */
@@ -130,13 +141,14 @@
             color: #7f8c8d;
             background: #e9ecef;
             width: 100%;
+            box-sizing: border-box;
         }
 
         .no-input { color: #bbb; font-size: 0.8rem; font-style: italic; }
 
         @media (max-width: 600px) {
-            .container { margin: 10px; }
-            .total-score { font-size: 3rem; }
+            .container { margin: 10px auto; width: calc(100% - 20px); }
+            .total-score { font-size: 3.2rem; } /* 모바일에서 너무 크면 깨지므로 살짝 조정 */
         }
     </style>
 </head>
@@ -158,7 +170,7 @@
 
     <div class="content-area">
         <div class="swipe-notice">
-            <span>◀ 좌우로 밀어서 표 확인 ▶</span>
+            <span>◀ 표를 좌우로 밀어서 입력 ▶</span>
         </div>
 
         <div class="table-wrapper">
