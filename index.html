@@ -13,6 +13,8 @@
             --danger: #e74c3c;
             --gold: #f39c12;
             --active-row: #f0f9ff;
+            --score-low: #ff7f50; /* 60점 미만 시 코랄 색상 */
+            --score-high: #2ecc71; /* 60점 이상 시 녹색 */
         }
 
         html, body { 
@@ -29,6 +31,7 @@
             flex: 1; box-sizing: border-box;
         }
 
+        /* 헤더 섹션 */
         .top-header {
             padding: 25px 12px; border-bottom: 2px solid #f8f9fa;
             display: flex; flex-direction: column; align-items: center;
@@ -57,18 +60,28 @@
             box-sizing: border-box;
         }
         .total-label { font-size: 0.9rem; opacity: 0.8; margin-bottom: 5px; }
-        .total-score { font-size: 3.8rem; font-weight: 900; color: #2ecc71; margin: 0; line-height: 1; }
         
-        /* 진행 바 디자인 */
+        /* 총점 숫자 및 색상 변화 */
+        .total-score { 
+            font-size: 3.8rem; font-weight: 900; 
+            color: var(--score-low); /* 초기값 */
+            margin: 0; line-height: 1; 
+            transition: color 0.4s ease;
+        }
+        .total-max { font-size: 0.85rem; opacity: 0.7; margin-top: 8px; }
+        
+        /* 진행 바 */
         .progress-container {
             width: 100%; background: rgba(255,255,255,0.2); 
             height: 8px; border-radius: 10px; margin-top: 15px; overflow: hidden;
         }
         .progress-bar {
-            width: 0%; height: 100%; background: #2ecc71; 
-            transition: width 0.5s ease;
+            width: 0%; height: 100%; 
+            background: var(--score-low); 
+            transition: width 0.5s ease, background 0.4s ease;
         }
 
+        /* 콘텐츠 영역 */
         .content-area { padding: 20px 8px; box-sizing: border-box; }
         
         .swipe-notice {
@@ -92,7 +105,6 @@
         th { background: #fbfbfc; padding: 15px 5px; font-size: 0.85rem; font-weight: 600; border-bottom: 2px solid #edf2f7; color: #64748b; }
         td { padding: 12px 4px; border-bottom: 1px solid #f1f5f9; text-align: center; transition: background 0.3s; }
         
-        /* 점수 입력된 행 강조 */
         tr.active-row td { background-color: var(--active-row); }
 
         .score-input, .grade-select { 
@@ -104,7 +116,6 @@
         .score-input { width: 75px; }
         .grade-select { width: 110px; background-color: #fff; cursor: pointer; }
 
-        /* 등급 배지 스타일 (전문가용 컬러링) */
         .grade-badge { 
             display: inline-block; padding: 5px 10px; border-radius: 6px; 
             font-weight: 800; color: white; font-size: 0.8rem; background: #94a3b8;
@@ -113,7 +124,7 @@
         .grade-3급미만, .grade-불합격 { background-color: var(--danger); }
         .grade-1급, .grade-2급, .grade-3급 { background-color: #34495e; }
 
-        .point-display { font-weight: 800; color: #f39c12; font-size: 1.15rem; }
+        .point-display { font-weight: 800; color: var(--primary); font-size: 1.15rem; opacity: 0.9; }
         
         .info-card { 
             margin-top: 15px; padding: 18px; background: #f8fafc;
@@ -146,7 +157,7 @@
         <div class="result-summary">
             <div class="total-label">환산 점수 총합</div>
             <div id="totalDisplay" class="total-score">0.00</div>
-            <div class="progress-container">
+            <div class="total-max">/ 70.00 점</div> <div class="progress-container">
                 <div id="progressBar" class="progress-bar"></div>
             </div>
         </div>
@@ -281,14 +292,12 @@
         const row = document.getElementById(`row_${idx}`);
         const point = grade ? scoreData[subName][grade] : 0;
         
-        // 배지 클래스 처리
-        const cleanGrade = grade.replace(" ", ""); // '3급 미만' -> '3급미만'
+        const cleanGrade = grade.replace(" ", ""); 
         const badgeHtml = grade ? `<span class="grade-badge grade-${cleanGrade}">${grade}</span>` : "-";
         
         document.getElementById(`grade_${idx}`).innerHTML = badgeHtml;
         document.getElementById(`point_${idx}`).innerText = point.toFixed(2);
         
-        // 행 활성화 강조
         if (grade) row.classList.add('active-row');
         else row.classList.remove('active-row');
         
@@ -300,11 +309,27 @@
         document.querySelectorAll('.display-point').forEach(p => {
             total += parseFloat(p.innerText);
         });
-        document.getElementById('totalDisplay').innerText = total.toFixed(2);
         
-        // 진행 바 업데이트 (만점 70점 기준)
+        const totalDisplay = document.getElementById('totalDisplay');
+        const progressBar = document.getElementById('progressBar');
+        
+        totalDisplay.innerText = total.toFixed(2);
+        
+        // 색상 변화 로직 (60점 기준)
+        const lowColor = "#ff7f50"; // 코랄 오렌지
+        const highColor = "#2ecc71"; // 합격 녹색
+        
+        if (total >= 60) {
+            totalDisplay.style.color = highColor;
+            progressBar.style.background = highColor;
+        } else {
+            totalDisplay.style.color = lowColor;
+            progressBar.style.background = lowColor;
+        }
+        
+        // 진행 바 업데이트
         const percent = (total / 70) * 100;
-        document.getElementById('progressBar').style.width = Math.min(percent, 100) + "%";
+        progressBar.style.width = Math.min(percent, 100) + "%";
     }
 
     window.onload = init;
