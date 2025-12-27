@@ -3,57 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>교육훈련 점수 종합 - 다크 모드</title>
+    <title>교육훈련 점수 종합</title>
     <style>
         :root { 
-            --dark-bg: #121212;       /* 깊은 밤색 배경 */
-            --dark-card: #1e1e1e;     /* 카드/컨테이너 배경 */
-            --primary-neon: #bb86fc;  /* 포인트 보라색 */
-            --accent-green: #03dac6;  /* 포인트 민트/그린 */
-            --text-main: #e0e0e0;     /* 메인 글자색 */
-            --text-dim: #a0a0a0;      /* 흐린 글자색 */
+            --primary: #2c3e50; 
+            --accent: #27ae60; 
+            --bg-color: #f4f7f6;
         }
 
         body { 
-            font-family: 'Pretendard', -apple-system, sans-serif; 
+            font-family: -apple-system, 'Pretendard', sans-serif; 
             margin: 0; 
-            padding: 15px 10px;
-            color: var(--text-main);
-            background-color: var(--dark-bg);
+            padding: 0;
+            color: var(--primary);
+            background-color: var(--bg-color);
         }
 
         .container { 
             max-width: 800px; 
-            margin: 0 auto; 
-            background: var(--dark-card); 
-            padding: 20px; 
-            border-radius: 20px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin: 20px auto; 
+            background: white; 
+            border-radius: 16px; 
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        /* 사진이 전체적으로 보이고 타이틀과 총점을 포함하는 상단 배너 */
+        .top-banner {
+            width: 100%;
+            /* 사진 비율에 맞게 높이가 조절됨 (필요시 조정 가능) */
+            min-height: 250px; 
+            background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('background.jpg');
+            background-size: contain; /* 사진이 잘리지 않고 전체가 나오게 설정 */
+            background-repeat: no-repeat;
+            background-position: center top;
+            background-color: #2c3e50; /* 사진 외 여백 색상 */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: white;
+            text-align: center;
         }
         
         h1 { 
-            text-align: center; 
-            margin-bottom: 25px; 
-            font-size: 1.5rem; 
-            color: var(--primary-neon);
-            letter-spacing: -0.5px;
+            margin: 0 0 15px 0; 
+            font-size: 1.6rem; 
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
 
-        /* 상단 결과창: 사진 위에 보라색 다크 그라데이션 적용 */
         .result-box { 
-            margin-bottom: 25px; 
-            padding: 35px 20px; 
-            background-image: linear-gradient(rgba(30, 30, 30, 0.8), rgba(103, 58, 183, 0.4)), url('background.jpg');
-            background-size: cover;
-            background-position: center;
-            color: white; 
-            border-radius: 16px; 
-            text-align: center; 
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(5px);
+            padding: 15px 30px; 
+            border-radius: 12px; 
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            min-width: 200px;
         }
-        .total-label { font-size: 0.9rem; color: var(--text-dim); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
-        .total-score { font-size: 4rem; font-weight: bold; color: var(--accent-green); margin: 5px 0; text-shadow: 0 0 15px rgba(3, 218, 198, 0.4); }
-        .total-max { font-size: 0.9rem; color: var(--text-dim); }
+        .total-label { font-size: 0.9rem; opacity: 0.9; margin-bottom: 5px; }
+        .total-score { font-size: 3.2rem; font-weight: bold; color: #2ecc71; margin: 0; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+        .total-max { font-size: 0.9rem; opacity: 0.8; }
+
+        .content-area { padding: 20px; }
 
         .table-wrapper { 
             width: 100%; 
@@ -62,89 +74,64 @@
             margin-bottom: 20px; 
         }
         table { width: 100%; border-collapse: collapse; min-width: 500px; }
-        th { 
-            background: rgba(255, 255, 255, 0.05); 
-            color: var(--primary-neon); 
-            padding: 15px 8px; 
-            font-size: 0.9rem; 
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        td { 
-            padding: 15px 5px; 
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
-            text-align: center; 
-            font-size: 0.95rem; 
-        }
+        th { background: #f8f9fa; color: var(--primary); padding: 12px 8px; font-size: 0.9rem; border-bottom: 2px solid #dee2e6; }
+        td { padding: 12px 5px; border-bottom: 1px solid #eee; text-align: center; font-size: 0.9rem; }
         
-        /* 입력창 디자인: 다크모드 전용 */
         input[type="number"], select { 
             width: 90%; 
             max-width: 100px; 
-            padding: 10px; 
-            background: #2c2c2c;
-            border: 1px solid #444; 
-            border-radius: 8px; 
-            color: white;
-            text-align: center; 
-            font-size: 1rem;
-            outline: none;
-        }
-        input[type="number"]:focus, select:focus { border-color: var(--primary-neon); box-shadow: 0 0 8px rgba(187, 134, 252, 0.3); }
-
-        .grade-badge { 
-            padding: 5px 10px; 
+            padding: 10px 5px; 
+            border: 1px solid #ced4da; 
             border-radius: 6px; 
-            font-weight: bold; 
-            background: var(--primary-neon); 
-            color: var(--dark-bg); 
-            font-size: 0.8rem; 
-        }
-        
-        .point-display { font-weight: bold; color: var(--accent-green); font-size: 1.1rem; }
-        
-        .info-text { 
-            font-size: 0.8rem; 
-            color: var(--text-dim); 
             text-align: center; 
-            margin-top: 15px; 
-            line-height: 1.6;
-            background: rgba(255, 255, 255, 0.03);
-            padding: 15px;
-            border-radius: 10px;
+            font-size: 0.95rem;
+            background-color: white;
         }
-        
-        .no-input { color: #555; font-size: 0.8rem; font-style: italic; }
+
+        .grade-badge { padding: 4px 8px; border-radius: 4px; font-weight: bold; background: #34495e; color: white; font-size: 0.85rem; }
+        .point-display { font-weight: bold; color: #e67e22; font-size: 1.1rem; }
+        .info-text { font-size: 0.85rem; color: #888; text-align: center; margin-top: 15px; line-height: 1.5; }
+        .no-input { color: #ccc; font-size: 0.8rem; font-style: italic; }
+
+        @media (max-width: 600px) {
+            .top-banner { min-height: 200px; }
+            h1 { font-size: 1.3rem; }
+            .total-score { font-size: 2.5rem; }
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Training Score Analytics</h1>
-    
-    <div class="result-box">
-        <div class="total-label">Conversion Total</div>
-        <div id="totalDisplay" class="total-score">0.00</div>
-        <div class="total-max">Goal: 70.00 PTS</div>
+    <div class="top-banner">
+        <h1>교육훈련 점수 종합</h1>
+        <div class="result-box">
+            <div class="total-label">환산 점수 총합</div>
+            <div id="totalDisplay" class="total-score">0.00</div>
+            <div class="total-max">/ 70.00 점</div>
+        </div>
     </div>
 
-    <div class="table-wrapper">
-        <table>
-            <thead>
-                <tr>
-                    <th>Subject</th>
-                    <th>Input</th>
-                    <th>Selection</th>
-                    <th>Rank</th>
-                    <th>Points</th>
-                </tr>
-            </thead>
-            <tbody id="scoreTableBody"></tbody>
-        </table>
-    </div>
+    <div class="content-area">
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 22%;">과목명</th>
+                        <th style="width: 22%;">기록 입력</th>
+                        <th style="width: 22%;">등급 선택</th>
+                        <th style="width: 17%;">판정</th>
+                        <th style="width: 17%;">환산점</th>
+                    </tr>
+                </thead>
+                <tbody id="scoreTableBody"></tbody>
+            </table>
+        </div>
 
-    <div class="info-text">
-        기초체력은 등급 선택만으로 계산되며, 사격은 0~20발을 입력하세요.<br>
-        모든 데이터는 실시간으로 총점에 합산됩니다.
+        <p class="info-text">
+            ※ 기초체력은 등급만 선택하면 환산점이 자동 계산됩니다.<br>
+            ※ 사격은 '발수(0~20)', 그 외 과목은 '점수(0~100)'를 입력하세요.
+        </p>
     </div>
 </div>
 
@@ -166,15 +153,15 @@
             const row = document.createElement('tr');
             const isPhysical = sub === "기초체력";
             const inputHtml = isPhysical 
-                ? `<span class="no-input">N/A</span>` 
-                : `<input type="number" class="score-input" placeholder="-" oninput="updateByInput(${idx})">`;
+                ? `<span class="no-input">입력불필요</span>` 
+                : `<input type="number" class="score-input" placeholder="${sub === '사격' ? '0-20' : '0-100'}" oninput="updateByInput(${idx})">`;
             
             row.innerHTML = `
                 <td><strong>${sub}</strong></td>
                 <td>${inputHtml}</td>
                 <td>
                     <select class="grade-select" onchange="updateByGrade(${idx})">
-                        <option value="">Select</option>
+                        <option value="">선택</option>
                         <option value="특급">특급</option>
                         <option value="1급">1급</option>
                         <option value="2급">2급</option>
@@ -194,11 +181,9 @@
         const row = document.querySelectorAll('tbody tr')[idx];
         const inputEl = row.querySelector('.score-input');
         if(!inputEl) return;
-        
         const val = parseFloat(inputEl.value);
         const gradeSelect = row.querySelector('.grade-select');
         const subName = subjects[idx];
-        
         gradeSelect.value = ""; 
         let grade = "";
         if (!isNaN(val)) {
