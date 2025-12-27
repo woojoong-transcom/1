@@ -5,71 +5,84 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>교육훈련 점수 종합</title>
     <style>
-        :root { 
-            --primary: #2c3e50; 
-            --accent: #27ae60; 
-            --bg-overlay: rgba(244, 247, 246, 0.85); /* 배경 이미지 투명도 조절 */
-            --container-bg: rgba(255, 255, 255, 0.92);
-        }
+    :root { 
+        --primary: #2c3e50; 
+        --accent: #27ae60; 
+        --bg-overlay: rgba(244, 247, 246, 0.85); 
+        --container-bg: rgba(255, 255, 255, 0.95);
+    }
 
-        body { 
-            font-family: -apple-system, 'Pretendard', sans-serif; 
-            margin: 0; 
-            padding: 20px 10px;
-            color: var(--primary);
-            /* 배경 이미지 설정 */
-            background-image: linear-gradient(var(--bg-overlay), var(--bg-overlay)), url('background.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }
+    body { 
+        font-family: -apple-system, 'Pretendard', sans-serif; 
+        margin: 0; 
+        padding: 10px; /* 모바일 여백 줄임 */
+        color: var(--primary);
+        background-image: linear-gradient(var(--bg-overlay), var(--bg-overlay)), url('background.jpg');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
 
-        .container { 
-            max-width: 800px; 
-            margin: 0 auto; 
-            background: var(--container-bg); 
-            padding: 30px; 
-            border-radius: 16px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
-            backdrop-filter: blur(5px); /* 배경을 살짝 흐리게 하여 가독성 향상 */
-        }
-        
-        h1 { text-align: center; margin-bottom: 25px; font-size: 1.8rem; color: var(--primary); letter-spacing: -1px; }
+    .container { 
+        max-width: 800px; 
+        margin: 0 auto; 
+        background: var(--container-bg); 
+        padding: 15px; /* 모바일 패딩 조정 */
+        border-radius: 12px; 
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
+    }
+    
+    h1 { text-align: center; margin-bottom: 20px; font-size: 1.4rem; } /* 모바일 타이틀 크기 조정 */
 
-        .result-box { 
-            margin-bottom: 30px; 
-            padding: 25px; 
-            background: #34495e; 
-            color: white; 
-            border-radius: 12px; 
-            text-align: center; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-        .total-label { font-size: 1.1rem; opacity: 0.9; margin-bottom: 8px; }
-        .total-score { font-size: 4rem; font-weight: bold; color: #2ecc71; margin: 10px 0; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-        .total-max { font-size: 1.1rem; opacity: 0.8; }
+    .result-box { 
+        margin-bottom: 20px; 
+        padding: 20px; 
+        background: #34495e; 
+        color: white; 
+        border-radius: 12px; 
+    }
+    .total-score { font-size: 3rem; font-weight: bold; color: #2ecc71; margin: 5px 0; }
 
-        .table-wrapper { width: 100%; overflow-x: auto; margin-bottom: 25px; border-radius: 8px; }
-        table { width: 100%; border-collapse: collapse; min-width: 580px; background: white; }
-        th { background: #f1f3f5; color: var(--primary); padding: 15px; font-size: 0.95rem; border-bottom: 2px solid #dee2e6; }
-        td { padding: 15px 10px; border-bottom: 1px solid #eee; text-align: center; }
-        
-        input[type="number"], select { 
-            width: 100%; 
-            max-width: 120px; 
-            padding: 10px; 
-            border: 2px solid #ddd; 
-            border-radius: 8px; 
-            text-align: center; 
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-        input[type="number"]:focus { border-color: var(--accent); outline: none; }
+    /* 표가 모바일에서 잘리지 않도록 핵심 설정 */
+    .table-wrapper { 
+        width: 100%; 
+        overflow-x: auto; /* 가로 스크롤 활성화 */
+        -webkit-overflow-scrolling: touch; /* 아이폰 부드러운 스크롤 */
+        margin-bottom: 20px; 
+        border: 1px solid #eee;
+        border-radius: 8px;
+    }
 
-        .grade-badge { padding: 6px 12px; border-radius: 6px; font-weight: bold; background: #2c3e50; color: white; font-size: 0.9rem; }
-        .point-display { font-weight: bold; color: #d35400; font-size: 1.2rem; }
-        .info-text { font-size: 0.9rem; color: #666; text-align: center; margin-top: 20px; font-weight: 500; }
-    </style>
+    table { 
+        width: 100%; 
+        border-collapse: collapse; 
+        min-width: 500px; /* 모바일에서 표가 너무 찌그러지지 않게 최소 너비 유지 */
+        background: white; 
+    }
+
+    th, td { 
+        padding: 12px 8px; 
+        font-size: 0.85rem; /* 모바일 글자 크기 최적화 */
+        border-bottom: 1px solid #eee; 
+    }
+    
+    /* 입력창이 모바일에서 선명하게 보이도록 수정 */
+    input[type="number"], select { 
+        width: 90%; 
+        max-width: 100px; 
+        padding: 8px; 
+        border: 2px solid #bdc3c7; /* 테두리 더 진하게 */
+        border-radius: 6px; 
+        text-align: center; 
+        font-size: 0.9rem;
+        appearance: none; /* 브라우저 기본 스타일 제거 */
+        background-color: white; /* 배경색 명시 */
+    }
+
+    input:disabled { background-color: #f1f1f1; border-color: #ddd; }
+
+    .grade-badge { padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; }
+</style>
 </head>
 <body>
 
@@ -194,4 +207,5 @@
     window.onload = init;
 </script>
 </body>
+
 </html>
