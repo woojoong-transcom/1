@@ -5,43 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>교육훈련 점수 종합</title>
     <style>
-        :root { --primary: #2c3e50; --accent: #27ae60; --bg: #f4f7f6; }
-        body { font-family: -apple-system, 'Pretendard', sans-serif; background: var(--bg); padding: 10px; margin: 0; color: var(--primary); }
-        .container { max-width: 800px; margin: 10px auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        :root { 
+            --primary: #2c3e50; 
+            --accent: #27ae60; 
+            --bg-overlay: rgba(244, 247, 246, 0.85); /* 배경 이미지 투명도 조절 */
+            --container-bg: rgba(255, 255, 255, 0.92);
+        }
+
+        body { 
+            font-family: -apple-system, 'Pretendard', sans-serif; 
+            margin: 0; 
+            padding: 20px 10px;
+            color: var(--primary);
+            /* 배경 이미지 설정 */
+            background-image: linear-gradient(var(--bg-overlay), var(--bg-overlay)), url('background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .container { 
+            max-width: 800px; 
+            margin: 0 auto; 
+            background: var(--container-bg); 
+            padding: 30px; 
+            border-radius: 16px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
+            backdrop-filter: blur(5px); /* 배경을 살짝 흐리게 하여 가독성 향상 */
+        }
         
-        h1 { text-align: center; margin-bottom: 20px; font-size: 1.6rem; color: var(--primary); }
+        h1 { text-align: center; margin-bottom: 25px; font-size: 1.8rem; color: var(--primary); letter-spacing: -1px; }
 
         .result-box { 
             margin-bottom: 30px; 
             padding: 25px; 
-            background: #2c3e50; 
+            background: #34495e; 
             color: white; 
             border-radius: 12px; 
             text-align: center; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
-        .total-label { font-size: 1rem; opacity: 0.9; margin-bottom: 5px; }
-        .total-score { font-size: 3.5rem; font-weight: bold; color: #2ecc71; margin: 5px 0; }
-        .total-max { font-size: 1rem; opacity: 0.8; }
+        .total-label { font-size: 1.1rem; opacity: 0.9; margin-bottom: 8px; }
+        .total-score { font-size: 4rem; font-weight: bold; color: #2ecc71; margin: 10px 0; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+        .total-max { font-size: 1.1rem; opacity: 0.8; }
 
-        .table-wrapper { width: 100%; overflow-x: auto; margin-bottom: 20px; }
-        table { width: 100%; border-collapse: collapse; min-width: 550px; }
-        th { background: #f8f9fa; color: var(--primary); padding: 12px; font-size: 0.9rem; border-bottom: 2px solid #dee2e6; }
-        td { padding: 15px 8px; border-bottom: 1px solid #eee; text-align: center; }
+        .table-wrapper { width: 100%; overflow-x: auto; margin-bottom: 25px; border-radius: 8px; }
+        table { width: 100%; border-collapse: collapse; min-width: 580px; background: white; }
+        th { background: #f1f3f5; color: var(--primary); padding: 15px; font-size: 0.95rem; border-bottom: 2px solid #dee2e6; }
+        td { padding: 15px 10px; border-bottom: 1px solid #eee; text-align: center; }
         
         input[type="number"], select { 
             width: 100%; 
-            max-width: 110px; 
+            max-width: 120px; 
             padding: 10px; 
-            border: 1px solid #ced4da; 
-            border-radius: 6px; 
+            border: 2px solid #ddd; 
+            border-radius: 8px; 
             text-align: center; 
             font-size: 1rem;
+            transition: border-color 0.3s;
         }
+        input[type="number"]:focus { border-color: var(--accent); outline: none; }
 
-        .grade-badge { padding: 5px 10px; border-radius: 4px; font-weight: bold; background: #34495e; color: white; font-size: 0.85rem; display: inline-block; }
-        .point-display { font-weight: bold; color: #e67e22; font-size: 1.1rem; }
-        .info-text { font-size: 0.85rem; color: #888; text-align: center; margin-top: 15px; }
+        .grade-badge { padding: 6px 12px; border-radius: 6px; font-weight: bold; background: #2c3e50; color: white; font-size: 0.9rem; }
+        .point-display { font-weight: bold; color: #d35400; font-size: 1.2rem; }
+        .info-text { font-size: 0.9rem; color: #666; text-align: center; margin-top: 20px; font-weight: 500; }
     </style>
 </head>
 <body>
@@ -51,7 +78,7 @@
     
     <div class="result-box">
         <div class="total-label">환산 점수 총합</div>
-        <div class="total-score" id="totalDisplay">0.00</div>
+        <div id="totalDisplay" class="total-score">0.00</div>
         <div class="total-max">/ 70.00 점</div>
     </div>
 
@@ -66,8 +93,7 @@
                     <th style="width: 20%;">환산점</th>
                 </tr>
             </thead>
-            <tbody id="scoreTableBody">
-            </tbody>
+            <tbody id="scoreTableBody"></tbody>
         </table>
     </div>
 
@@ -90,7 +116,6 @@
         const tbody = document.getElementById('scoreTableBody');
         subjects.forEach((sub, idx) => {
             const row = document.createElement('tr');
-            // 사격인 경우 placeholder를 '0-20발'로 변경
             const placeholder = sub === "사격" ? "0-20발" : "0-100점";
             
             row.innerHTML = `
@@ -114,19 +139,15 @@
         });
     }
 
-    // 입력값(점수 혹은 발수)에 따른 등급 판정 로직
     window.updateByInput = function(idx) {
         const row = document.querySelectorAll('tbody tr')[idx];
         const val = parseFloat(row.querySelector('.score-input').value);
         const gradeSelect = row.querySelector('.grade-select');
         const subName = subjects[idx];
-        
         gradeSelect.value = ""; 
-        
         let grade = "";
         if (!isNaN(val)) {
             if (subName === "사격") {
-                // 사격 발수 기준 적용
                 if (val >= 18) grade = "특급";
                 else if (val >= 16) grade = "1급";
                 else if (val >= 14) grade = "2급";
@@ -134,7 +155,6 @@
                 else if (val >= 1) grade = "3급 미만";
                 else grade = "불합격";
             } else {
-                // 일반 과목 점수 기준 적용
                 if (val >= 90) grade = "특급";
                 else if (val >= 80) grade = "1급";
                 else if (val >= 70) grade = "2급";
@@ -150,7 +170,6 @@
         const row = document.querySelectorAll('tbody tr')[idx];
         const gradeVal = row.querySelector('.grade-select').value;
         const scoreInput = row.querySelector('.score-input');
-        
         scoreInput.value = ""; 
         applyResult(idx, gradeVal);
     }
@@ -159,10 +178,8 @@
         const row = document.querySelectorAll('tbody tr')[idx];
         const subName = subjects[idx];
         const point = grade ? scoreData[subName][grade] : 0;
-        
         row.querySelector('.display-grade').innerHTML = grade ? `<span class="grade-badge">${grade}</span>` : "-";
         row.querySelector('.display-point').innerText = point.toFixed(2);
-        
         calculateTotal();
     }
 
