@@ -13,8 +13,8 @@
             --danger: #e74c3c;
             --gold: #f39c12;
             --active-row: #f0f9ff;
-            --score-low: #ff7f50; /* 60점 미만 시 코랄 색상 */
-            --score-high: #2ecc71; /* 60점 이상 시 녹색 */
+            --score-low: #ff7f50;
+            --score-high: #2ecc71;
         }
 
         html, body { 
@@ -29,9 +29,9 @@
             background: white; border-radius: 20px; 
             box-shadow: 0 10px 25px rgba(0,0,0,0.08);
             flex: 1; box-sizing: border-box;
+            display: flex; flex-direction: column;
         }
 
-        /* 헤더 섹션 */
         .top-header {
             padding: 25px 12px; border-bottom: 2px solid #f8f9fa;
             display: flex; flex-direction: column; align-items: center;
@@ -60,28 +60,15 @@
             box-sizing: border-box;
         }
         .total-label { font-size: 0.9rem; opacity: 0.8; margin-bottom: 5px; }
-        
-        /* 총점 숫자 및 색상 변화 */
-        .total-score { 
-            font-size: 3.8rem; font-weight: 900; 
-            color: var(--score-low); /* 초기값 */
-            margin: 0; line-height: 1; 
-            transition: color 0.4s ease;
-        }
+        .total-score { font-size: 3.8rem; font-weight: 900; color: var(--score-low); margin: 0; line-height: 1; transition: color 0.4s; }
         .total-max { font-size: 0.85rem; opacity: 0.7; margin-top: 8px; }
         
-        /* 진행 바 */
         .progress-container {
             width: 100%; background: rgba(255,255,255,0.2); 
             height: 8px; border-radius: 10px; margin-top: 15px; overflow: hidden;
         }
-        .progress-bar {
-            width: 0%; height: 100%; 
-            background: var(--score-low); 
-            transition: width 0.5s ease, background 0.4s ease;
-        }
+        .progress-bar { width: 0%; height: 100%; background: var(--score-low); transition: width 0.5s, background 0.4s; }
 
-        /* 콘텐츠 영역 */
         .content-area { padding: 20px 8px; box-sizing: border-box; }
         
         .swipe-notice {
@@ -115,22 +102,44 @@
 
         .score-input { width: 75px; }
         .grade-select { width: 110px; background-color: #fff; cursor: pointer; }
+        .score-input:focus { border-color: #3498db; outline: none; }
 
         .grade-badge { 
             display: inline-block; padding: 5px 10px; border-radius: 6px; 
             font-weight: 800; color: white; font-size: 0.8rem; background: #94a3b8;
         }
-        .grade-특급 { background-color: var(--gold); box-shadow: 0 2px 5px rgba(243,156,18,0.3); }
+        .grade-특급 { background-color: var(--gold); }
         .grade-3급미만, .grade-불합격 { background-color: var(--danger); }
         .grade-1급, .grade-2급, .grade-3급 { background-color: #34495e; }
 
-        .point-display { font-weight: 800; color: var(--primary); font-size: 1.15rem; opacity: 0.9; }
-        
         .info-card { 
             margin-top: 15px; padding: 18px; background: #f8fafc;
             border: 1px solid #e2e8f0; color: #475569; border-radius: 14px;
-            font-size: 0.9rem; line-height: 1.7; box-sizing: border-box;
+            font-size: 0.9rem; line-height: 1.7;
         }
+
+        /* 초기화 버튼 스타일 */
+        .action-area {
+            padding: 20px 10px 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .reset-btn {
+            background-color: #f1f2f6;
+            color: #7f8c8d;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex; align-items: center; gap: 8px;
+        }
+
+        .reset-btn:hover { background-color: #dfe4ea; color: var(--danger); }
+        .reset-btn:active { transform: scale(0.96); }
 
         footer {
             text-align: center; padding: 25px; font-size: 0.85rem;
@@ -157,7 +166,8 @@
         <div class="result-summary">
             <div class="total-label">환산 점수 총합</div>
             <div id="totalDisplay" class="total-score">0.00</div>
-            <div class="total-max">/ 70.00 점</div> <div class="progress-container">
+            <div class="total-max">/ 70.00 점</div>
+            <div class="progress-container">
                 <div id="progressBar" class="progress-bar"></div>
             </div>
         </div>
@@ -190,6 +200,12 @@
             • 사격은 획득한 <b>발수(0~20)</b>를, 기타 과목은 <b>점수(0~100)</b>를 입력하세요.
         </div>
     </div>
+
+    <div class="action-area">
+        <button class="reset-btn" onclick="resetAll()">
+            🔄 전체 데이터 초기화
+        </button>
+    </div>
 </div>
 
 <footer>
@@ -210,6 +226,7 @@
 
     function init() {
         const tbody = document.getElementById('scoreTableBody');
+        tbody.innerHTML = '';
         subjects.forEach((sub, idx) => {
             const row = document.createElement('tr');
             row.id = `row_${idx}`;
@@ -246,25 +263,37 @@
         const selectEl = document.getElementById(`select_${idx}`);
         if (!inputEl) return;
         
-        if (inputEl.value !== "") {
+        let val = inputEl.value;
+        const subName = subjects[idx];
+
+        if (val !== "") {
+            const numVal = parseFloat(val);
+            // 입력 범위 제한 유효성 검사
+            const maxVal = subName === "사격" ? 20 : 100;
+            if (numVal < 0 || numVal > maxVal) {
+                alert(`${subName}의 입력 범위는 0에서 ${maxVal}까지입니다.`);
+                inputEl.value = "";
+                selectEl.disabled = false;
+                applyResult(idx, "");
+                return;
+            }
+
             selectEl.disabled = true;
             let grade = "";
-            const val = parseFloat(inputEl.value);
-            const subName = subjects[idx];
             
             if (subName === "사격") {
-                if (val >= 18) grade = "특급";
-                else if (val >= 16) grade = "1급";
-                else if (val >= 14) grade = "2급";
-                else if (val >= 12) grade = "3급";
-                else if (val >= 1) grade = "3급 미만";
+                if (numVal >= 18) grade = "특급";
+                else if (numVal >= 16) grade = "1급";
+                else if (numVal >= 14) grade = "2급";
+                else if (numVal >= 12) grade = "3급";
+                else if (numVal >= 1) grade = "3급 미만";
                 else grade = "불합격";
             } else {
-                if (val >= 90) grade = "특급";
-                else if (val >= 80) grade = "1급";
-                else if (val >= 70) grade = "2급";
-                else if (val >= 60) grade = "3급";
-                else if (val > 0) grade = "3급 미만";
+                if (numVal >= 90) grade = "특급";
+                else if (numVal >= 80) grade = "1급";
+                else if (numVal >= 70) grade = "2급";
+                else if (numVal >= 60) grade = "3급";
+                else if (numVal > 0) grade = "3급 미만";
                 else grade = "불합격";
             }
             applyResult(idx, grade);
@@ -279,7 +308,10 @@
         const selectEl = document.getElementById(`select_${idx}`);
         
         if (selectEl.value !== "") {
-            if(inputEl) inputEl.disabled = true;
+            if(inputEl) {
+                inputEl.value = ""; 
+                inputEl.disabled = true;
+            }
             applyResult(idx, selectEl.value);
         } else {
             if(inputEl) inputEl.disabled = false;
@@ -312,12 +344,10 @@
         
         const totalDisplay = document.getElementById('totalDisplay');
         const progressBar = document.getElementById('progressBar');
-        
         totalDisplay.innerText = total.toFixed(2);
         
-        // 색상 변화 로직 (60점 기준)
-        const lowColor = "#ff7f50"; // 코랄 오렌지
-        const highColor = "#2ecc71"; // 합격 녹색
+        const lowColor = "#ff7f50";
+        const highColor = "#2ecc71";
         
         if (total >= 60) {
             totalDisplay.style.color = highColor;
@@ -327,9 +357,16 @@
             progressBar.style.background = lowColor;
         }
         
-        // 진행 바 업데이트
         const percent = (total / 70) * 100;
         progressBar.style.width = Math.min(percent, 100) + "%";
+    }
+
+    // 전체 초기화 함수
+    window.resetAll = function() {
+        if(confirm("입력하신 모든 데이터가 삭제됩니다. 초기화하시겠습니까?")) {
+            init(); // 테이블 재생성
+            calculateTotal(); // 총점 리셋
+        }
     }
 
     window.onload = init;
