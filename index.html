@@ -10,7 +10,9 @@
             --accent: #27ae60; 
             --bg-color: #f1f3f5;
             --disabled: #e9ecef;
-            --text-muted: #95a5a6;
+            --danger: #e74c3c;
+            --gold: #f39c12;
+            --active-row: #f0f9ff;
         }
 
         html, body { 
@@ -27,15 +29,13 @@
             flex: 1; box-sizing: border-box;
         }
 
-        /* 헤더 섹션 */
         .top-header {
             padding: 25px 12px; border-bottom: 2px solid #f8f9fa;
             display: flex; flex-direction: column; align-items: center;
         }
 
         .title-area {
-            display: flex; align-items: center; 
-            gap: 10px; margin-bottom: 20px;
+            display: flex; align-items: center; gap: 10px; margin-bottom: 20px;
             width: 100%; justify-content: center;
         }
 
@@ -43,17 +43,12 @@
             width: 55px; height: 55px;
             background-image: url('background.jpg');
             background-size: cover; background-position: center;
-            border-radius: 12px; border: 1px solid #ddd;
-            flex-shrink: 0;
+            border-radius: 12px; border: 1px solid #ddd; flex-shrink: 0;
         }
 
         h1 { 
-            margin: 0; 
-            font-size: 2.1rem; 
-            font-weight: 900; 
-            letter-spacing: -1.5px; 
-            color: #1a202c;
-            white-space: nowrap;
+            margin: 0; font-size: 2.1rem; font-weight: 900; 
+            letter-spacing: -1.5px; color: #1a202c; white-space: nowrap;
         }
 
         .result-summary { 
@@ -63,16 +58,23 @@
         }
         .total-label { font-size: 0.9rem; opacity: 0.8; margin-bottom: 5px; }
         .total-score { font-size: 3.8rem; font-weight: 900; color: #2ecc71; margin: 0; line-height: 1; }
-        .total-max { font-size: 0.85rem; opacity: 0.7; margin-top: 8px; }
+        
+        /* 진행 바 디자인 */
+        .progress-container {
+            width: 100%; background: rgba(255,255,255,0.2); 
+            height: 8px; border-radius: 10px; margin-top: 15px; overflow: hidden;
+        }
+        .progress-bar {
+            width: 0%; height: 100%; background: #2ecc71; 
+            transition: width 0.5s ease;
+        }
 
-        /* 콘텐츠 영역 및 애니메이션 */
         .content-area { padding: 20px 8px; box-sizing: border-box; }
         
         .swipe-notice {
             display: flex; align-items: center; justify-content: center;
             font-size: 0.85rem; color: #3498db; font-weight: 600;
-            margin-bottom: 10px;
-            animation: shakeHint 2s ease-in-out infinite; /* 흔들기 애니메이션 */
+            margin-bottom: 10px; animation: shakeHint 2s ease-in-out infinite;
         }
 
         @keyframes shakeHint {
@@ -84,23 +86,15 @@
         .table-wrapper { 
             width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch;
             border: 1px solid #eee; border-radius: 14px; background: #fff;
-            /* 표 자체도 초기에 살짝 흔들려 시각적 힌트 제공 */
-            animation: tableShake 2s ease-in-out 1; 
-        }
-
-        @keyframes tableShake {
-            0% { transform: translateX(0); }
-            20% { transform: translateX(-8px); }
-            40% { transform: translateX(8px); }
-            60% { transform: translateX(-4px); }
-            80% { transform: translateX(4px); }
-            100% { transform: translateX(0); }
         }
 
         table { width: 100%; border-collapse: collapse; min-width: 520px; }
         th { background: #fbfbfc; padding: 15px 5px; font-size: 0.85rem; font-weight: 600; border-bottom: 2px solid #edf2f7; color: #64748b; }
-        td { padding: 12px 4px; border-bottom: 1px solid #f1f5f9; text-align: center; vertical-align: middle; }
+        td { padding: 12px 4px; border-bottom: 1px solid #f1f5f9; text-align: center; transition: background 0.3s; }
         
+        /* 점수 입력된 행 강조 */
+        tr.active-row td { background-color: var(--active-row); }
+
         .score-input, .grade-select { 
             height: 46px; padding: 0 8px; border: 2px solid #e2e8f0; 
             border-radius: 10px; text-align: center; font-size: 0.95rem;
@@ -110,23 +104,22 @@
         .score-input { width: 75px; }
         .grade-select { width: 110px; background-color: #fff; cursor: pointer; }
 
-        .score-input:disabled, .grade-select:disabled {
-            background-color: var(--disabled); border-color: #eee; color: #bdc3c7; opacity: 0.6;
-        }
-
-        .subject-name { font-weight: 700; font-size: 0.95rem; color: #334155; }
+        /* 등급 배지 스타일 (전문가용 컬러링) */
         .grade-badge { 
             display: inline-block; padding: 5px 10px; border-radius: 6px; 
-            font-weight: 800; background: #475569; color: white; font-size: 0.8rem; 
+            font-weight: 800; color: white; font-size: 0.8rem; background: #94a3b8;
         }
-        .point-display { font-weight: 800; color: #f59e0b; font-size: 1.15rem; }
+        .grade-특급 { background-color: var(--gold); box-shadow: 0 2px 5px rgba(243,156,18,0.3); }
+        .grade-3급미만, .grade-불합격 { background-color: var(--danger); }
+        .grade-1급, .grade-2급, .grade-3급 { background-color: #34495e; }
+
+        .point-display { font-weight: 800; color: #f39c12; font-size: 1.15rem; }
         
         .info-card { 
             margin-top: 15px; padding: 18px; background: #f8fafc;
             border: 1px solid #e2e8f0; color: #475569; border-radius: 14px;
             font-size: 0.9rem; line-height: 1.7; box-sizing: border-box;
         }
-        .info-card b { color: #1e293b; }
 
         footer {
             text-align: center; padding: 25px; font-size: 0.85rem;
@@ -153,7 +146,9 @@
         <div class="result-summary">
             <div class="total-label">환산 점수 총합</div>
             <div id="totalDisplay" class="total-score">0.00</div>
-            <div class="total-max">/ 70.00 점</div>
+            <div class="progress-container">
+                <div id="progressBar" class="progress-bar"></div>
+            </div>
         </div>
     </div>
 
@@ -206,6 +201,7 @@
         const tbody = document.getElementById('scoreTableBody');
         subjects.forEach((sub, idx) => {
             const row = document.createElement('tr');
+            row.id = `row_${idx}`;
             const isPhysical = sub === "기초체력";
             const placeholderText = sub === "사격" ? "0-20" : "0-100";
             
@@ -238,11 +234,11 @@
         const inputEl = document.getElementById(`input_${idx}`);
         const selectEl = document.getElementById(`select_${idx}`);
         if (!inputEl) return;
-        const val = parseFloat(inputEl.value);
         
         if (inputEl.value !== "") {
             selectEl.disabled = true;
             let grade = "";
+            const val = parseFloat(inputEl.value);
             const subName = subjects[idx];
             
             if (subName === "사격") {
@@ -282,9 +278,20 @@
 
     function applyResult(idx, grade) {
         const subName = subjects[idx];
+        const row = document.getElementById(`row_${idx}`);
         const point = grade ? scoreData[subName][grade] : 0;
-        document.getElementById(`grade_${idx}`).innerHTML = grade ? `<span class="grade-badge">${grade}</span>` : "-";
+        
+        // 배지 클래스 처리
+        const cleanGrade = grade.replace(" ", ""); // '3급 미만' -> '3급미만'
+        const badgeHtml = grade ? `<span class="grade-badge grade-${cleanGrade}">${grade}</span>` : "-";
+        
+        document.getElementById(`grade_${idx}`).innerHTML = badgeHtml;
         document.getElementById(`point_${idx}`).innerText = point.toFixed(2);
+        
+        // 행 활성화 강조
+        if (grade) row.classList.add('active-row');
+        else row.classList.remove('active-row');
+        
         calculateTotal();
     }
 
@@ -294,6 +301,10 @@
             total += parseFloat(p.innerText);
         });
         document.getElementById('totalDisplay').innerText = total.toFixed(2);
+        
+        // 진행 바 업데이트 (만점 70점 기준)
+        const percent = (total / 70) * 100;
+        document.getElementById('progressBar').style.width = Math.min(percent, 100) + "%";
     }
 
     window.onload = init;
