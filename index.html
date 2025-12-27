@@ -9,10 +9,8 @@
         body { font-family: -apple-system, 'Pretendard', sans-serif; background: var(--bg); padding: 10px; margin: 0; color: var(--primary); }
         .container { max-width: 800px; margin: 10px auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         
-        /* 제목 스타일 */
         h1 { text-align: center; margin-bottom: 20px; font-size: 1.6rem; color: var(--primary); }
 
-        /* 종합 점수 상단 배치 */
         .result-box { 
             margin-bottom: 30px; 
             padding: 25px; 
@@ -26,9 +24,8 @@
         .total-score { font-size: 3.5rem; font-weight: bold; color: #2ecc71; margin: 5px 0; }
         .total-max { font-size: 1rem; opacity: 0.8; }
 
-        /* 테이블 스타일 */
         .table-wrapper { width: 100%; overflow-x: auto; margin-bottom: 20px; }
-        table { width: 100%; border-collapse: collapse; min-width: 500px; }
+        table { width: 100%; border-collapse: collapse; min-width: 550px; }
         th { background: #f8f9fa; color: var(--primary); padding: 12px; font-size: 0.9rem; border-bottom: 2px solid #dee2e6; }
         td { padding: 15px 8px; border-bottom: 1px solid #eee; text-align: center; }
         
@@ -40,9 +37,7 @@
             border-radius: 6px; 
             text-align: center; 
             font-size: 1rem;
-            transition: border-color 0.2s;
         }
-        input[type="number"]:focus, select:focus { border-color: var(--accent); outline: none; }
 
         .grade-badge { padding: 5px 10px; border-radius: 4px; font-weight: bold; background: #34495e; color: white; font-size: 0.85rem; display: inline-block; }
         .point-display { font-weight: bold; color: #e67e22; font-size: 1.1rem; }
@@ -64,23 +59,22 @@
         <table>
             <thead>
                 <tr>
-                    <th>과목명</th>
-                    <th>점수 입력</th>
-                    <th>등급 선택</th>
-                    <th>판정</th>
-                    <th>환산점</th>
+                    <th style="width: 20%;">과목명</th>
+                    <th style="width: 25%;">기록 입력</th>
+                    <th style="width: 20%;">등급 선택</th>
+                    <th style="width: 15%;">판정</th>
+                    <th style="width: 20%;">환산점</th>
                 </tr>
             </thead>
             <tbody id="scoreTableBody">
-                </tbody>
+            </tbody>
         </table>
     </div>
 
-    <p class="info-text">※ 점수 입력 시 자동으로 등급 및 환산점이 계산됩니다.</p>
+    <p class="info-text">※ 사격은 '발수(0~20)', 그 외 과목은 '점수(0~100)'를 입력하세요.</p>
 </div>
 
 <script>
-    // 과목별 정밀 환산 데이터
     const scoreData = {
         "정신전력": { "특급": 10, "1급": 9.29, "2급": 8.58, "3급": 7.15, "3급 미만": 5.72, "불합격": 4.29 },
         "기초체력": { "특급": 10, "1급": 9.29, "2급": 8.58, "3급": 7.15, "3급 미만": 5.72, "불합격": 4.29 },
@@ -96,9 +90,12 @@
         const tbody = document.getElementById('scoreTableBody');
         subjects.forEach((sub, idx) => {
             const row = document.createElement('tr');
+            // 사격인 경우 placeholder를 '0-20발'로 변경
+            const placeholder = sub === "사격" ? "0-20발" : "0-100점";
+            
             row.innerHTML = `
                 <td><strong>${sub}</strong></td>
-                <td><input type="number" class="score-input" placeholder="0-100" oninput="updateByScore(${idx})"></td>
+                <td><input type="number" class="score-input" placeholder="${placeholder}" oninput="updateByInput(${idx})"></td>
                 <td>
                     <select class="grade-select" onchange="updateByGrade(${idx})">
                         <option value="">선택</option>
@@ -117,21 +114,34 @@
         });
     }
 
-    window.updateByScore = function(idx) {
+    // 입력값(점수 혹은 발수)에 따른 등급 판정 로직
+    window.updateByInput = function(idx) {
         const row = document.querySelectorAll('tbody tr')[idx];
-        const scoreVal = parseFloat(row.querySelector('.score-input').value);
+        const val = parseFloat(row.querySelector('.score-input').value);
         const gradeSelect = row.querySelector('.grade-select');
+        const subName = subjects[idx];
         
         gradeSelect.value = ""; 
         
         let grade = "";
-        if (!isNaN(scoreVal)) {
-            if (scoreVal >= 90) grade = "특급";
-            else if (scoreVal >= 80) grade = "1급";
-            else if (scoreVal >= 70) grade = "2급";
-            else if (scoreVal >= 60) grade = "3급";
-            else if (scoreVal > 0) grade = "3급 미만";
-            else grade = "불합격";
+        if (!isNaN(val)) {
+            if (subName === "사격") {
+                // 사격 발수 기준 적용
+                if (val >= 18) grade = "특급";
+                else if (val >= 16) grade = "1급";
+                else if (val >= 14) grade = "2급";
+                else if (val >= 12) grade = "3급";
+                else if (val >= 1) grade = "3급 미만";
+                else grade = "불합격";
+            } else {
+                // 일반 과목 점수 기준 적용
+                if (val >= 90) grade = "특급";
+                else if (val >= 80) grade = "1급";
+                else if (val >= 70) grade = "2급";
+                else if (val >= 60) grade = "3급";
+                else if (val > 0) grade = "3급 미만";
+                else grade = "불합격";
+            }
         }
         applyResult(idx, grade);
     }
