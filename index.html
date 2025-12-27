@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>교육훈련 점수 종합</title>
+    <title>교육훈련 점수 종합 시스템</title>
     <style>
         :root { 
             --primary: #2c3e50; 
             --accent: #27ae60; 
-            --bg-color: #f0f2f5;
+            --bg-color: #f8f9fa;
         }
 
         body { 
@@ -16,141 +16,150 @@
             margin: 0; 
             padding: 0; 
             background-color: var(--bg-color);
+            color: var(--primary);
         }
 
         .container { 
-            max-width: 800px; 
-            margin: 20px auto; 
+            max-width: 850px; 
+            margin: 30px auto; 
             background: white; 
-            border-radius: 20px; 
+            border-radius: 24px; 
             overflow: hidden; 
-            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
         }
 
-        /* 상단 배너 영역: 사진이 잘리지 않으면서 빈 공간을 블러로 채움 */
-        .top-banner {
-            position: relative;
-            width: 100%;
-            min-height: 300px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-
-        /* 배경 블러 레이어 (검은 여백 대신 사진을 흐리게 깔아줌) */
-        .top-banner::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image: url('background.jpg');
-            background-size: cover;
-            background-position: center;
-            filter: blur(20px) brightness(0.7); /* 흐림 정도와 밝기 조절 */
-            transform: scale(1.1); /* 블러 경계선의 흰 선 방지 */
-            z-index: 1;
-        }
-
-        /* 메인 이미지 레이어 (사진 전체가 보이도록 설정) */
-        .main-img {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image: url('background.jpg');
-            background-size: contain; /* 사진 전체 표시 */
-            background-repeat: no-repeat;
-            background-position: center;
-            z-index: 2;
-        }
-
-        /* 텍스트 가독성을 위한 중앙 집중 그라데이션 막 */
-        .overlay-content {
-            position: relative;
-            z-index: 3;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: radial-gradient(circle, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.1) 70%, transparent 100%);
-            padding: 20px;
-            color: white;
+        /* 1. 상단 배너: 깔끔하고 정돈된 스타일 */
+        .top-header {
+            background-color: var(--primary);
+            padding: 40px 20px;
             text-align: center;
+            color: white;
         }
 
         h1 { 
-            margin: 0 0 15px 0; 
+            margin: 0 0 20px 0; 
             font-size: 1.8rem; 
-            font-weight: 800;
-            text-shadow: 0 2px 15px rgba(0,0,0,0.8);
-            letter-spacing: -1px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
         }
 
-        /* 점수 박스: 유리창 효과(Glassmorphism) */
-        .result-box { 
-            background: rgba(255, 255, 255, 0.1); 
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 20px 40px; 
-            border-radius: 18px; 
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        .result-summary { 
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 40px; 
+            border-radius: 50px; 
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
-        .total-label { font-size: 0.95rem; opacity: 0.9; margin-bottom: 5px; font-weight: 500; }
-        .total-score { font-size: 3.8rem; font-weight: bold; color: #2ecc71; margin: 0; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
-        .total-max { font-size: 0.9rem; opacity: 0.8; margin-top: 5px; }
+        .total-label { font-size: 0.9rem; opacity: 0.8; margin-bottom: 2px; }
+        .total-score { font-size: 3rem; font-weight: 800; color: #2ecc71; margin: 0; }
+        .total-max { font-size: 0.85rem; opacity: 0.7; }
 
-        .content-area { padding: 25px; }
+        /* 2. 하단 입력 영역: 배경에 사진 배치 */
+        .content-area { 
+            position: relative;
+            padding: 40px 20px;
+            min-height: 500px;
+            /* 배경 사진 설정 */
+            background-image: url('background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: local;
+        }
+
+        /* 사진 위에 가시성을 위한 부드러운 오버레이 */
+        .content-area::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255, 255, 255, 0.75); /* 사진을 연하게 만듦 */
+            backdrop-filter: blur(3px); /* 배경 사진을 살짝 흐리게 */
+            z-index: 1;
+        }
 
         .table-wrapper { 
+            position: relative;
+            z-index: 2;
             width: 100%; 
             overflow-x: auto; 
+            background: rgba(255, 255, 255, 0.9); /* 표 뒤를 더 하얗게 보강 */
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
             -webkit-overflow-scrolling: touch;
-            margin-bottom: 25px; 
         }
-        table { width: 100%; border-collapse: collapse; min-width: 500px; }
-        th { background: #f8f9fa; color: var(--primary); padding: 15px 8px; font-size: 0.9rem; border-bottom: 2px solid #dee2e6; }
-        td { padding: 15px 5px; border-bottom: 1px solid #eee; text-align: center; font-size: 0.95rem; }
+
+        table { width: 100%; border-collapse: collapse; min-width: 550px; }
+        th { 
+            background: #f1f3f5; 
+            color: var(--primary); 
+            padding: 18px 10px; 
+            font-size: 0.95rem; 
+            border-bottom: 2px solid #dee2e6;
+            font-weight: 700;
+        }
+        td { padding: 16px 8px; border-bottom: 1px solid #eee; text-align: center; font-size: 1rem; }
         
+        /* 입력 칸 가시성 강화 */
         input[type="number"], select { 
             width: 90%; 
-            max-width: 100px; 
-            padding: 10px 5px; 
-            border: 1.5px solid #ced4da; 
-            border-radius: 8px; 
+            max-width: 110px; 
+            padding: 12px 8px; 
+            border: 2px solid #ddd; 
+            border-radius: 10px; 
             text-align: center; 
             font-size: 1rem;
             background-color: white;
-            transition: border-color 0.2s;
+            color: var(--primary);
+            font-weight: 600;
+            transition: all 0.2s;
         }
-        input[type="number"]:focus { border-color: var(--accent); outline: none; }
+        input[type="number"]:focus, select:focus { 
+            border-color: var(--accent); 
+            box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.1);
+            outline: none;
+        }
 
-        .grade-badge { padding: 5px 10px; border-radius: 6px; font-weight: bold; background: #34495e; color: white; font-size: 0.85rem; }
-        .point-display { font-weight: 800; color: #e67e22; font-size: 1.2rem; }
-        .info-text { font-size: 0.85rem; color: #7f8c8d; text-align: center; margin-top: 20px; line-height: 1.6; }
-        .no-input { color: #bdc3c7; font-size: 0.85rem; font-style: italic; font-weight: 500; }
+        .grade-badge { 
+            padding: 6px 12px; 
+            border-radius: 8px; 
+            font-weight: bold; 
+            background: var(--primary); 
+            color: white; 
+            font-size: 0.85rem; 
+        }
+        .point-display { font-weight: 800; color: #e67e22; font-size: 1.25rem; }
+        
+        .info-card { 
+            position: relative;
+            z-index: 2;
+            margin-top: 25px;
+            padding: 20px;
+            background: rgba(44, 62, 80, 0.9);
+            color: white;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        .no-input { color: #999; font-size: 0.85rem; font-weight: 500; }
 
         @media (max-width: 600px) {
-            .top-banner { min-height: 240px; }
-            h1 { font-size: 1.4rem; }
-            .total-score { font-size: 2.8rem; }
-            .result-box { padding: 15px 25px; }
+            .container { margin: 10px; border-radius: 16px; }
+            .top-header { padding: 30px 15px; }
+            .total-score { font-size: 2.5rem; }
+            th, td { padding: 12px 5px; font-size: 0.9rem; }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="top-banner">
-        <div class="main-img"></div>
-        <div class="overlay-content">
-            <h1>교육훈련 점수 종합</h1>
-            <div class="result-box">
-                <div class="total-label">환산 점수 총합</div>
-                <div id="totalDisplay" class="total-score">0.00</div>
-                <div class="total-max">/ 70.00 점</div>
-            </div>
+    <div class="top-header">
+        <h1>교육훈련 점수 종합 시스템</h1>
+        <div class="result-summary">
+            <div class="total-label">현재 환산 점수 합계</div>
+            <div id="totalDisplay" class="total-score">0.00</div>
+            <div class="total-max">/ 70.00 점 만점</div>
         </div>
     </div>
 
@@ -159,9 +168,9 @@
             <table>
                 <thead>
                     <tr>
-                        <th style="width: 22%;">과목명</th>
-                        <th style="width: 22%;">기록 입력</th>
-                        <th style="width: 22%;">등급 선택</th>
+                        <th style="width: 20%;">과목명</th>
+                        <th style="width: 23%;">기록 입력</th>
+                        <th style="width: 23%;">등급 선택</th>
                         <th style="width: 17%;">판정</th>
                         <th style="width: 17%;">환산점</th>
                     </tr>
@@ -170,11 +179,11 @@
             </table>
         </div>
 
-        <p class="info-text">
-            <strong>[계산 지침]</strong><br>
-            기초체력은 등급만 선택하면 환산점이 즉시 반영됩니다.<br>
-            사격은 합격 발수(0~20), 그 외 과목은 점수(0~100)를 입력하세요.
-        </p>
+        <div class="info-card">
+            <strong>[입력 안내]</strong><br>
+            • 기초체력: 등급 선택만으로 점수 산출<br>
+            • 사격: 0~20발 입력 / 기타 과목: 0~100점 입력
+        </div>
     </div>
 </div>
 
@@ -196,15 +205,15 @@
             const row = document.createElement('tr');
             const isPhysical = sub === "기초체력";
             const inputHtml = isPhysical 
-                ? `<span class="no-input">입력불필요</span>` 
-                : `<input type="number" class="score-input" placeholder="${sub === '사격' ? '0-20' : '0-100'}" oninput="updateByInput(${idx})">`;
+                ? `<span class="no-input">입력 제외</span>` 
+                : `<input type="number" class="score-input" placeholder="${sub === '사격' ? '발수' : '점수'}" oninput="updateByInput(${idx})">`;
             
             row.innerHTML = `
                 <td><strong>${sub}</strong></td>
                 <td>${inputHtml}</td>
                 <td>
                     <select class="grade-select" onchange="updateByGrade(${idx})">
-                        <option value="">선택</option>
+                        <option value="">등급 선택</option>
                         <option value="특급">특급</option>
                         <option value="1급">1급</option>
                         <option value="2급">2급</option>
