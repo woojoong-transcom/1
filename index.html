@@ -19,15 +19,16 @@
         }
 
         .container { 
-            max-width: 850px; margin: 20px auto; 
+            max-width: 700px; /* 가로 간격을 줄이기 위해 전체 너비 축소 */
+            margin: 20px auto; 
             background: white; border-radius: 16px; 
             overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
-        /* 1. 상단 헤더: 로고와 타이틀 수평 정렬 */
+        /* 상단 헤더 */
         .top-header {
             background-color: white;
-            padding: 20px 25px;
+            padding: 20px;
             border-bottom: 2px solid #eee;
             display: flex;
             flex-direction: column;
@@ -36,13 +37,13 @@
 
         .title-area {
             display: flex;
-            align-items: center; /* 세로 중앙 정렬 */
-            gap: 15px; /* 로고와 글자 사이 간격 */
-            margin-bottom: 20px;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
         }
 
         .top-logo {
-            width: 50px; height: 50px;
+            width: 45px; height: 45px;
             background-image: url('background.jpg');
             background-size: cover;
             background-position: center;
@@ -50,65 +51,65 @@
             border: 1px solid #ddd;
         }
 
-        h1 { 
-            margin: 0; 
-            font-size: 1.6rem; 
-            font-weight: 700;
-            color: var(--primary);
-        }
+        h1 { margin: 0; font-size: 1.4rem; font-weight: 700; }
 
         .result-summary { 
-            width: 100%; max-width: 450px;
+            width: 100%; max-width: 380px;
             background: var(--primary);
-            padding: 25px; border-radius: 12px; 
+            padding: 20px; border-radius: 12px; 
             color: white; text-align: center;
         }
-        .total-label { font-size: 0.9rem; opacity: 0.8; margin-bottom: 8px; }
-        
-        /* 총점 숫자 크기 3포인트 확대 적용 */
-        .total-score { 
-            font-size: 3.8rem; /* 기존 3.5rem에서 확대 */
-            font-weight: 800; color: #2ecc71; 
-            margin: 0; line-height: 1; 
-        }
-        .total-max { font-size: 0.9rem; opacity: 0.7; margin-top: 8px; }
+        .total-label { font-size: 0.85rem; opacity: 0.8; margin-bottom: 5px; }
+        .total-score { font-size: 3.8rem; font-weight: 800; color: #2ecc71; margin: 0; line-height: 1; }
+        .total-max { font-size: 0.85rem; opacity: 0.7; margin-top: 5px; }
 
-        /* 2. 테이블 영역 및 입력창 너비 조절 */
-        .content-area { padding: 30px 20px; }
+        /* 테이블 및 입력창 간격 축소 */
+        .content-area { padding: 20px; }
         .table-wrapper { 
             width: 100%; overflow-x: auto; 
             border: 1px solid #eee; border-radius: 12px;
         }
 
-        table { width: 100%; border-collapse: collapse; min-width: 600px; }
-        th { background: #f8f9fa; padding: 15px 10px; font-size: 0.9rem; border-bottom: 2px solid #dee2e6; }
-        td { padding: 15px 8px; border-bottom: 1px solid #eee; text-align: center; }
+        table { width: 100%; border-collapse: collapse; min-width: 500px; }
+        th { background: #f8f9fa; padding: 12px 8px; font-size: 0.85rem; border-bottom: 2px solid #dee2e6; }
+        td { padding: 12px 5px; border-bottom: 1px solid #eee; text-align: center; }
         
-        /* 기록입력(숫자) 너비 최적화 */
+        /* 입력창 너비 정밀 조절 */
         .score-input { 
-            width: 80px; /* 고정 너비로 정돈 */
-            padding: 10px; border: 1.5px solid #ddd; 
-            border-radius: 8px; text-align: center; font-size: 1rem;
+            width: 75px; 
+            padding: 8px; border: 1.5px solid #ddd; 
+            border-radius: 6px; text-align: center; font-size: 0.95rem;
         }
         
-        /* 등급선택(셀렉트) 너비 최적화 */
         .grade-select { 
-            width: 120px; /* 글자가 잘리지 않도록 너비 확보 */
-            padding: 10px; border: 1.5px solid #ddd; 
-            border-radius: 8px; font-size: 0.95rem;
+            width: 105px; 
+            padding: 8px; border: 1.5px solid #ddd; 
+            border-radius: 6px; font-size: 0.9rem;
             cursor: pointer;
         }
 
         input:focus, select:focus { border-color: var(--accent); outline: none; }
 
-        .grade-badge { padding: 5px 10px; border-radius: 4px; font-weight: bold; background: #34495e; color: white; font-size: 0.85rem; }
-        .point-display { font-weight: 800; color: #e67e22; font-size: 1.2rem; }
-        .no-input { color: #bbb; font-size: 0.85rem; font-style: italic; }
+        .grade-badge { padding: 4px 8px; border-radius: 4px; font-weight: bold; background: #34495e; color: white; font-size: 0.8rem; }
+        .point-display { font-weight: 800; color: #e67e22; font-size: 1.1rem; }
+        
+        /* 하단 안내 카드 */
+        .info-card { 
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border: 1px solid #eee;
+            color: #666;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+        .info-card strong { color: var(--primary); }
+
+        .no-input { color: #bbb; font-size: 0.8rem; font-style: italic; }
 
         @media (max-width: 600px) {
-            .title-area { gap: 10px; }
-            .top-logo { width: 40px; height: 40px; }
-            h1 { font-size: 1.3rem; }
+            .container { margin: 10px; }
             .total-score { font-size: 3rem; }
         }
     </style>
@@ -144,6 +145,13 @@
                 <tbody id="scoreTableBody"></tbody>
             </table>
         </div>
+
+        <div class="info-card">
+            <strong>[입력 안내]</strong><br>
+            • <strong>사격:</strong> 합격 발수(0~20)를 입력하세요.<br>
+            • <strong>일반과목:</strong> 획득 점수(0~100)를 입력하세요.<br>
+            • <strong>기초체력:</strong> 등급만 선택하면 환산점이 자동 반영됩니다.
+        </div>
     </div>
 </div>
 
@@ -164,9 +172,12 @@
         subjects.forEach((sub, idx) => {
             const row = document.createElement('tr');
             const isPhysical = sub === "기초체력";
+            
+            // Placeholder 다시 설정 (0-20, 0-100)
+            const placeholderText = sub === "사격" ? "0-20" : "0-100";
             const inputHtml = isPhysical 
-                ? `<span class="no-input">기록 제외</span>` 
-                : `<input type="number" class="score-input" placeholder="${sub === '사격' ? '발' : '점'}" oninput="updateByInput(${idx})">`;
+                ? `<span class="no-input">등급 선택</span>` 
+                : `<input type="number" class="score-input" placeholder="${placeholderText}" oninput="updateByInput(${idx})">`;
             
             row.innerHTML = `
                 <td><strong>${sub}</strong></td>
