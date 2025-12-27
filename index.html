@@ -102,7 +102,6 @@
 
         .score-input { width: 75px; }
         .grade-select { width: 110px; background-color: #fff; cursor: pointer; }
-        .score-input:focus { border-color: #3498db; outline: none; }
 
         .grade-badge { 
             display: inline-block; padding: 5px 10px; border-radius: 6px; 
@@ -118,28 +117,26 @@
             font-size: 0.9rem; line-height: 1.7;
         }
 
-        /* 초기화 버튼 스타일 */
-        .action-area {
-            padding: 20px 10px 40px;
-            display: flex;
-            justify-content: center;
+        /* 평가 체계 가이드 */
+        .system-guide {
+            margin-top: 20px; padding: 18px; background: #fff;
+            border: 2px dashed #cbd5e1; border-radius: 14px;
+            font-size: 0.85rem; color: #64748b;
         }
+        .guide-table { width: 100%; border: none; min-width: unset; margin-top: 10px; }
+        .guide-table th { background: #f1f5f9; padding: 8px; color: #475569; border: 1px solid #e2e8f0; }
+        .guide-table td { padding: 8px; border: 1px solid #e2e8f0; color: #1e293b; background: #fff !important; }
+
+        .action-area { padding: 20px 10px 40px; display: flex; justify-content: center; }
 
         .reset-btn {
-            background-color: #f1f2f6;
-            color: #7f8c8d;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: all 0.2s;
+            background-color: #f1f2f6; color: #7f8c8d; border: none;
+            padding: 12px 30px; border-radius: 10px; font-weight: 700;
+            font-size: 0.95rem; cursor: pointer; transition: all 0.2s;
             display: flex; align-items: center; gap: 8px;
         }
 
         .reset-btn:hover { background-color: #dfe4ea; color: var(--danger); }
-        .reset-btn:active { transform: scale(0.96); }
 
         footer {
             text-align: center; padding: 25px; font-size: 0.85rem;
@@ -164,7 +161,7 @@
         </div>
         
         <div class="result-summary">
-            <div class="total-label">환산 점수 총합</div>
+            <div class="total-label">교육훈련 환산 점수 (70점 만점)</div>
             <div id="totalDisplay" class="total-score">0.00</div>
             <div class="total-max">/ 70.00 점</div>
             <div class="progress-container">
@@ -195,15 +192,43 @@
 
         <div class="info-card">
             <strong>💡 사용 팁</strong><br>
-            • 과목별 <b>점수 또는 등급</b>을 입력하면 기준표에 따른 <b>환산점수</b>가 자동으로 계산됩니다.<br>
-            • <b>기초체력</b>은 점수가 아닌 <b>등급</b>을 직접 선택해야 점수가 반영됩니다.<br>
-            • 사격은 획득한 <b>발수(0~20)</b>를, 기타 과목은 <b>점수(0~100)</b>를 입력하세요.
+            • 과목별 <b>점수 또는 등급</b>을 입력하면 기준표에 따른 <b>환산점수</b>가 산출됩니다.<br>
+            • <b>기초체력</b>은 등급을 직접 선택해야 점수가 반영됩니다.
+        </div>
+
+        <div class="system-guide">
+            <strong>📋 병 진급평가 점수 산정 체계 안내</strong><br>
+            본 시스템으로 산출되는 점수는 전체 평가 항목 중 <b>교육훈련(70점)</b>에 해당합니다. 
+            최종 진급 여부는 아래 항목을 합산한 <b>100점 만점</b>을 기준으로 결정됩니다.
+            
+            <table class="guide-table">
+                <thead>
+                    <tr>
+                        <th>평가 항목</th>
+                        <th>배점</th>
+                        <th>평가 방법</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>교육훈련</b></td>
+                        <td><b>70점</b></td>
+                        <td>사격, 체력, 주특기 등</td>
+                    </tr>
+                    <tr>
+                        <td><b>병영생활</b></td>
+                        <td><b>30점</b></td>
+                        <td>상/벌점, 복무태도 등</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p style="margin-top:10px; font-size:0.8rem;">* 본 도구의 결과만으로는 진급이 결정되지 않으며, 병영생활 점수는 부대별 자체 기준에 따라 별도로 관리됩니다.</p>
         </div>
     </div>
 
     <div class="action-area">
         <button class="reset-btn" onclick="resetAll()">
-            🔄 전체 데이터 초기화
+            🔄 데이터 초기화
         </button>
     </div>
 </div>
@@ -268,7 +293,6 @@
 
         if (val !== "") {
             const numVal = parseFloat(val);
-            // 입력 범위 제한 유효성 검사
             const maxVal = subName === "사격" ? 20 : 100;
             if (numVal < 0 || numVal > maxVal) {
                 alert(`${subName}의 입력 범위는 0에서 ${maxVal}까지입니다.`);
@@ -308,10 +332,7 @@
         const selectEl = document.getElementById(`select_${idx}`);
         
         if (selectEl.value !== "") {
-            if(inputEl) {
-                inputEl.value = ""; 
-                inputEl.disabled = true;
-            }
+            if(inputEl) { inputEl.value = ""; inputEl.disabled = true; }
             applyResult(idx, selectEl.value);
         } else {
             if(inputEl) inputEl.disabled = false;
@@ -323,7 +344,6 @@
         const subName = subjects[idx];
         const row = document.getElementById(`row_${idx}`);
         const point = grade ? scoreData[subName][grade] : 0;
-        
         const cleanGrade = grade.replace(" ", ""); 
         const badgeHtml = grade ? `<span class="grade-badge grade-${cleanGrade}">${grade}</span>` : "-";
         
@@ -338,9 +358,7 @@
 
     function calculateTotal() {
         let total = 0;
-        document.querySelectorAll('.display-point').forEach(p => {
-            total += parseFloat(p.innerText);
-        });
+        document.querySelectorAll('.display-point').forEach(p => { total += parseFloat(p.innerText); });
         
         const totalDisplay = document.getElementById('totalDisplay');
         const progressBar = document.getElementById('progressBar');
@@ -361,11 +379,10 @@
         progressBar.style.width = Math.min(percent, 100) + "%";
     }
 
-    // 전체 초기화 함수
     window.resetAll = function() {
         if(confirm("입력하신 모든 데이터가 삭제됩니다. 초기화하시겠습니까?")) {
-            init(); // 테이블 재생성
-            calculateTotal(); // 총점 리셋
+            init();
+            calculateTotal();
         }
     }
 
