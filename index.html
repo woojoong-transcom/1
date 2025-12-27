@@ -3,62 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>교육훈련 점수 종합 - 국방 테마</title>
+    <title>교육훈련 점수 종합 - 다크 모드</title>
     <style>
         :root { 
-            --army-dark: #2d3436;     /* 짙은 차콜 */
-            --army-olive: #4b5320;    /* 국방색 */
-            --army-accent: #8db600;   /* 밝은 포인트 올리브 */
-            --army-bg: #dfe6e9;       /* 연한 회색 배경 */
-            --text-primary: #2c3e50;
+            --dark-bg: #121212;       /* 깊은 밤색 배경 */
+            --dark-card: #1e1e1e;     /* 카드/컨테이너 배경 */
+            --primary-neon: #bb86fc;  /* 포인트 보라색 */
+            --accent-green: #03dac6;  /* 포인트 민트/그린 */
+            --text-main: #e0e0e0;     /* 메인 글자색 */
+            --text-dim: #a0a0a0;      /* 흐린 글자색 */
         }
 
         body { 
-            font-family: -apple-system, 'Pretendard', 'Malgun Gothic', sans-serif; 
+            font-family: 'Pretendard', -apple-system, sans-serif; 
             margin: 0; 
             padding: 15px 10px;
-            color: var(--text-primary);
-            background-color: var(--army-bg);
+            color: var(--text-main);
+            background-color: var(--dark-bg);
         }
 
         .container { 
             max-width: 800px; 
             margin: 0 auto; 
-            background: white; 
+            background: var(--dark-card); 
             padding: 20px; 
-            border-radius: 8px; /* 각진 느낌을 위해 곡률 감소 */
-            border: 2px solid var(--army-dark);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border-radius: 20px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
         
         h1 { 
             text-align: center; 
             margin-bottom: 25px; 
-            font-size: 1.6rem; 
-            color: var(--army-dark);
-            text-transform: uppercase;
-            border-bottom: 3px solid var(--army-olive);
-            display: inline-block;
-            width: 100%;
-            padding-bottom: 10px;
+            font-size: 1.5rem; 
+            color: var(--primary-neon);
+            letter-spacing: -0.5px;
         }
 
-        /*  */
+        /* 상단 결과창: 사진 위에 보라색 다크 그라데이션 적용 */
         .result-box { 
             margin-bottom: 25px; 
             padding: 35px 20px; 
-            /* 사진과 짙은 국방색 그라데이션 조합 */
-            background-image: linear-gradient(rgba(45, 52, 54, 0.85), rgba(75, 83, 32, 0.85)), url('background.jpg');
+            background-image: linear-gradient(rgba(30, 30, 30, 0.8), rgba(103, 58, 183, 0.4)), url('background.jpg');
             background-size: cover;
             background-position: center;
             color: white; 
-            border-radius: 6px; 
+            border-radius: 16px; 
             text-align: center; 
-            border: 1px solid #000;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .total-label { font-size: 1.1rem; letter-spacing: 2px; font-weight: bold; margin-bottom: 5px; }
-        .total-score { font-size: 4rem; font-weight: bold; color: var(--army-accent); margin: 5px 0; text-shadow: 2px 2px 0px rgba(0,0,0,0.5); }
-        .total-max { font-size: 1rem; opacity: 0.8; font-family: 'Courier New', monospace; }
+        .total-label { font-size: 0.9rem; color: var(--text-dim); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
+        .total-score { font-size: 4rem; font-weight: bold; color: var(--accent-green); margin: 5px 0; text-shadow: 0 0 15px rgba(3, 218, 198, 0.4); }
+        .total-max { font-size: 0.9rem; color: var(--text-dim); }
 
         .table-wrapper { 
             width: 100%; 
@@ -68,76 +63,79 @@
         }
         table { width: 100%; border-collapse: collapse; min-width: 500px; }
         th { 
-            background: var(--army-dark); 
-            color: white; 
-            padding: 12px 8px; 
-            font-size: 0.95rem; 
-            border: 1px solid #444;
+            background: rgba(255, 255, 255, 0.05); 
+            color: var(--primary-neon); 
+            padding: 15px 8px; 
+            font-size: 0.9rem; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         td { 
             padding: 15px 5px; 
-            border: 1px solid #ccc; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
             text-align: center; 
             font-size: 0.95rem; 
         }
         
-        /*  */
+        /* 입력창 디자인: 다크모드 전용 */
         input[type="number"], select { 
             width: 90%; 
-            max-width: 110px; 
-            padding: 8px; 
-            border: 2px solid var(--army-dark); 
-            border-radius: 4px; 
+            max-width: 100px; 
+            padding: 10px; 
+            background: #2c2c2c;
+            border: 1px solid #444; 
+            border-radius: 8px; 
+            color: white;
             text-align: center; 
             font-size: 1rem;
-            font-weight: bold;
+            outline: none;
         }
+        input[type="number"]:focus, select:focus { border-color: var(--primary-neon); box-shadow: 0 0 8px rgba(187, 134, 252, 0.3); }
 
         .grade-badge { 
-            padding: 6px 12px; 
-            border-radius: 2px; 
+            padding: 5px 10px; 
+            border-radius: 6px; 
             font-weight: bold; 
-            background: var(--army-olive); 
-            color: white; 
-            font-size: 0.85rem; 
-            box-shadow: 2px 2px 0px #222;
+            background: var(--primary-neon); 
+            color: var(--dark-bg); 
+            font-size: 0.8rem; 
         }
         
-        .point-display { font-weight: bold; color: #d35400; font-size: 1.2rem; }
+        .point-display { font-weight: bold; color: var(--accent-green); font-size: 1.1rem; }
         
         .info-text { 
-            font-size: 0.85rem; 
-            color: #555; 
-            text-align: left; 
+            font-size: 0.8rem; 
+            color: var(--text-dim); 
+            text-align: center; 
             margin-top: 15px; 
-            background: #f9f9f9; 
-            padding: 10px; 
-            border-left: 5px solid var(--army-olive);
+            line-height: 1.6;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px;
+            border-radius: 10px;
         }
         
-        .no-input { color: #aaa; font-size: 0.8rem; font-weight: bold; }
+        .no-input { color: #555; font-size: 0.8rem; font-style: italic; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>교육훈련 점수 기록체계</h1>
+    <h1>Training Score Analytics</h1>
     
     <div class="result-box">
-        <div class="total-label">종합 환산 점수</div>
+        <div class="total-label">Conversion Total</div>
         <div id="totalDisplay" class="total-score">0.00</div>
-        <div class="total-max">TOTAL CAP: 70.00 PTS</div>
+        <div class="total-max">Goal: 70.00 PTS</div>
     </div>
 
     <div class="table-wrapper">
         <table>
             <thead>
                 <tr>
-                    <th>평가 과목</th>
-                    <th>데이터 입력</th>
-                    <th>등급 판정</th>
-                    <th>등급</th>
-                    <th>환산점</th>
+                    <th>Subject</th>
+                    <th>Input</th>
+                    <th>Selection</th>
+                    <th>Rank</th>
+                    <th>Points</th>
                 </tr>
             </thead>
             <tbody id="scoreTableBody"></tbody>
@@ -145,10 +143,8 @@
     </div>
 
     <div class="info-text">
-        <strong>[운영지침]</strong><br>
-        1. 기초체력: '등급 선택' 시 즉시 환산 점수가 반영됩니다.<br>
-        2. 사격: 합격 발수(0-20)를 입력하십시오.<br>
-        3. 기타과목: 평가 점수(0-100)를 입력하십시오.
+        기초체력은 등급 선택만으로 계산되며, 사격은 0~20발을 입력하세요.<br>
+        모든 데이터는 실시간으로 총점에 합산됩니다.
     </div>
 </div>
 
@@ -170,15 +166,15 @@
             const row = document.createElement('tr');
             const isPhysical = sub === "기초체력";
             const inputHtml = isPhysical 
-                ? `<span class="no-input">입력 제외</span>` 
-                : `<input type="number" class="score-input" placeholder="${sub === '사격' ? '발수' : '점수'}" oninput="updateByInput(${idx})">`;
+                ? `<span class="no-input">N/A</span>` 
+                : `<input type="number" class="score-input" placeholder="-" oninput="updateByInput(${idx})">`;
             
             row.innerHTML = `
                 <td><strong>${sub}</strong></td>
                 <td>${inputHtml}</td>
                 <td>
                     <select class="grade-select" onchange="updateByGrade(${idx})">
-                        <option value="">-- 선택 --</option>
+                        <option value="">Select</option>
                         <option value="특급">특급</option>
                         <option value="1급">1급</option>
                         <option value="2급">2급</option>
