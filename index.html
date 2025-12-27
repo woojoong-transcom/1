@@ -2,119 +2,23 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>군사훈련 성적 종합 채점기</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>군사훈련 종합 성적 채점기</title>
     <style>
         :root { --primary: #2c3e50; --accent: #27ae60; --bg: #f4f7f6; }
-        
-        body { 
-            font-family: 'Pretendard', -apple-system, sans-serif; 
-            background: var(--bg); 
-            padding: 10px; 
-            margin: 0;
-            color: var(--primary); 
-            word-break: keep-all;
-        }
-
-        .container { 
-            max-width: 800px; 
-            margin: 10px auto; 
-            background: white; 
-            padding: 20px 15px; 
-            border-radius: 12px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
-            box-sizing: border-box;
-        }
-
-        h1 { 
-            text-align: center; 
-            font-size: 1.4rem; 
-            border-bottom: 2px solid var(--primary); 
-            padding-bottom: 15px; 
-            margin-bottom: 20px; 
-        }
-
-        /* 모바일에서 표가 잘리지 않게 가로 스크롤 허용 */
-        .table-wrapper {
-            width: 100%;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            margin-bottom: 20px;
-            border: 1px solid #eee;
-            border-radius: 8px;
-        }
-
-        table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            min-width: 500px; /* 표가 너무 찌그러지지 않게 최소 너비 설정 */
-        }
-
-        th { 
-            background: var(--primary); 
-            color: white; 
-            padding: 10px 5px; 
-            font-size: 0.85rem; 
-            white-space: nowrap;
-        }
-
-        td { 
-            padding: 10px 5px; 
-            border-bottom: 1px solid #eee; 
-            text-align: center; 
-            font-size: 0.9rem;
-        }
-
-        input[type="number"], select { 
-            width: 95%; 
-            padding: 8px 2px; 
-            border: 1px solid #ccc; 
-            border-radius: 4px; 
-            text-align: center; 
-            font-size: 0.9rem;
-            box-sizing: border-box;
-        }
-
-        .grade-badge { 
-            padding: 4px 6px; 
-            border-radius: 4px; 
-            font-weight: bold; 
-            background: #34495e; 
-            color: white; 
-            font-size: 0.8rem;
-            display: inline-block;
-            white-space: nowrap;
-        }
-
-        .point-display { 
-            font-weight: bold; 
-            color: #d35400; 
-            font-size: 1rem; 
-        }
-
-        .result-box { 
-            margin-top: 20px; 
-            padding: 20px; 
-            background: #e9ecef; 
-            border-radius: 10px; 
-            text-align: center; 
-        }
-
-        .total-score { 
-            font-size: 2.5rem; 
-            font-weight: bold; 
-            color: var(--accent); 
-            margin: 10px 0;
-        }
-
-        .sub-text { color: #666; font-size: 0.85rem; }
-
-        /* 모바일 특화 반응형 조절 */
-        @media (max-width: 480px) {
-            h1 { font-size: 1.2rem; }
-            .container { padding: 15px 10px; }
-            .total-score { font-size: 2rem; }
-        }
+        body { font-family: -apple-system, sans-serif; background: var(--bg); padding: 10px; margin: 0; color: var(--primary); }
+        .container { max-width: 800px; margin: 10px auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h1 { text-align: center; border-bottom: 3px solid var(--primary); padding-bottom: 15px; font-size: 1.5rem; }
+        .table-wrapper { width: 100%; overflow-x: auto; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; min-width: 500px; }
+        th { background: var(--primary); color: white; padding: 12px; font-size: 0.9rem; }
+        td { padding: 12px 8px; border-bottom: 1px solid #eee; text-align: center; }
+        input[type="number"], select { width: 100%; max-width: 100px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; text-align: center; font-size: 1rem; }
+        .grade-badge { padding: 4px 8px; border-radius: 4px; font-weight: bold; background: #34495e; color: white; font-size: 0.85rem; }
+        .point-display { font-weight: bold; color: #d35400; font-size: 1.1rem; }
+        .result-box { margin-top: 20px; padding: 25px; background: #e9ecef; border-radius: 10px; text-align: center; }
+        .total-score { font-size: 3rem; font-weight: bold; color: var(--accent); margin: 10px 0; }
+        .info-text { font-size: 0.85rem; color: #666; margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -126,24 +30,112 @@
         <table>
             <thead>
                 <tr>
-                    <th style="width: 30%;">과목명</th>
-                    <th style="width: 18%;">점수</th>
-                    <th style="width: 20%;">등급 선택</th>
-                    <th style="width: 16%;">판정</th>
-                    <th style="width: 16%;">환산점</th>
+                    <th>과목명</th>
+                    <th>점수 입력</th>
+                    <th>등급 선택</th>
+                    <th>판정</th>
+                    <th>환산점</th>
                 </tr>
             </thead>
-            <tbody id="subjectTable">
+            <tbody id="scoreTableBody">
                 </tbody>
         </table>
     </div>
 
     <div class="result-box">
-        <div class="sub-text">환산 점수 합계 (70점 만점)</div>
+        <div style="font-size: 1rem; color: #666;">환산 점수 합계 (70점 만점)</div>
         <div class="total-score" id="totalDisplay">0.00</div>
+        <p class="info-text">* 점수를 입력하면 자동으로 등급이 판정됩니다.</p>
     </div>
 </div>
 
 <script>
+    // 과목별 정밀 환산 데이터
     const scoreData = {
-        "정신전력": { "특급": 10, "1급":
+        "정신전력": { "특급": 10, "1급": 9.29, "2급": 8.58, "3급": 7.15, "3급 미만": 5.72, "불합격": 4.29 },
+        "기초체력": { "특급": 10, "1급": 9.29, "2급": 8.58, "3급": 7.15, "3급 미만": 5.72, "불합격": 4.29 },
+        "사격": { "특급": 10, "1급": 9.29, "2급": 8.58, "3급": 7.15, "3급 미만": 5.72, "불합격": 4.29 },
+        "핵 및 화생방": { "특급": 5, "1급": 4.65, "2급": 4.29, "3급": 3.58, "3급 미만": 2.56, "불합격": 2.15 },
+        "TCCC": { "특급": 5, "1급": 4.65, "2급": 4.29, "3급": 3.58, "3급 미만": 2.56, "불합격": 2.15 },
+        "주특기": { "특급": 30, "1급": 27.86, "2급": 25.72, "3급": 21.43, "3급 미만": 17.15, "불합격": 12.86 }
+    };
+
+    const subjects = Object.keys(scoreData);
+
+    function init() {
+        const tbody = document.getElementById('scoreTableBody');
+        subjects.forEach((sub, idx) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><strong>${sub}</strong></td>
+                <td><input type="number" class="score-input" placeholder="0-100" oninput="updateByScore(${idx})"></td>
+                <td>
+                    <select class="grade-select" onchange="updateByGrade(${idx})">
+                        <option value="">선택</option>
+                        <option value="특급">특급</option>
+                        <option value="1급">1급</option>
+                        <option value="2급">2급</option>
+                        <option value="3급">3급</option>
+                        <option value="3급 미만">3급 미만</option>
+                        <option value="불합격">불합격</option>
+                    </select>
+                </td>
+                <td><span class="display-grade">-</span></td>
+                <td><span class="display-point">0.00</span></td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+
+    window.updateByScore = function(idx) {
+        const row = document.querySelectorAll('tbody tr')[idx];
+        const scoreVal = parseFloat(row.querySelector('.score-input').value);
+        const gradeSelect = row.querySelector('.grade-select');
+        
+        gradeSelect.value = ""; // 점수 입력 시 선택창 초기화
+        
+        let grade = "";
+        if (!isNaN(scoreVal)) {
+            if (scoreVal >= 90) grade = "특급";
+            else if (scoreVal >= 80) grade = "1급";
+            else if (scoreVal >= 70) grade = "2급";
+            else if (scoreVal >= 60) grade = "3급";
+            else if (scoreVal > 0) grade = "3급 미만";
+            else grade = "불합격";
+        }
+        applyResult(idx, grade);
+    }
+
+    window.updateByGrade = function(idx) {
+        const row = document.querySelectorAll('tbody tr')[idx];
+        const gradeVal = row.querySelector('.grade-select').value;
+        const scoreInput = row.querySelector('.score-input');
+        
+        scoreInput.value = ""; // 등급 선택 시 점수 입력창 초기화
+        applyResult(idx, gradeVal);
+    }
+
+    function applyResult(idx, grade) {
+        const row = document.querySelectorAll('tbody tr')[idx];
+        const subName = subjects[idx];
+        const point = grade ? scoreData[subName][grade] : 0;
+        
+        row.querySelector('.display-grade').innerHTML = grade ? `<span class="grade-badge">${grade}</span>` : "-";
+        row.querySelector('.display-point').innerText = point.toFixed(2);
+        
+        calculateTotal();
+    }
+
+    function calculateTotal() {
+        let total = 0;
+        document.querySelectorAll('.display-point').forEach(p => {
+            total += parseFloat(p.innerText);
+        });
+        document.getElementById('totalDisplay').innerText = total.toFixed(2);
+    }
+
+    // 페이지 로드 즉시 실행
+    window.onload = init;
+</script>
+</body>
+</html>
