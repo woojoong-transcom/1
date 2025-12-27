@@ -16,13 +16,17 @@
             margin: 0; padding: 0; 
             background-color: var(--bg-color);
             color: var(--primary);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         .container { 
-            max-width: 700px; /* 가로 간격을 줄이기 위해 전체 너비 축소 */
+            max-width: 700px; 
             margin: 20px auto; 
             background: white; border-radius: 16px; 
             overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            flex: 1; /* 푸터를 하단에 고정하기 위함 */
         }
 
         /* 상단 헤더 */
@@ -63,48 +67,70 @@
         .total-score { font-size: 3.8rem; font-weight: 800; color: #2ecc71; margin: 0; line-height: 1; }
         .total-max { font-size: 0.85rem; opacity: 0.7; margin-top: 5px; }
 
-        /* 테이블 및 입력창 간격 축소 */
+        /* 테이블 및 스와이프 안내 */
         .content-area { padding: 20px; }
-        .table-wrapper { 
-            width: 100%; overflow-x: auto; 
-            border: 1px solid #eee; border-radius: 12px;
+        
+        .swipe-notice {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 8px;
+            animation: shake 2s infinite; /* 처음 접속 시 시선 집중을 위한 애니메이션 */
         }
 
-        table { width: 100%; border-collapse: collapse; min-width: 500px; }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50% { transform: translateX(-5px); }
+            20%, 40% { transform: translateX(5px); }
+        }
+
+        .table-wrapper { 
+            width: 100%; 
+            overflow-x: auto; 
+            border: 1px solid #eee; 
+            border-radius: 12px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* 스크롤바가 항상 보이게 하여 스와이프 가능함을 암시 */
+        .table-wrapper::-webkit-scrollbar { height: 6px; }
+        .table-wrapper::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
+
+        table { width: 100%; border-collapse: collapse; min-width: 550px; }
         th { background: #f8f9fa; padding: 12px 8px; font-size: 0.85rem; border-bottom: 2px solid #dee2e6; }
         td { padding: 12px 5px; border-bottom: 1px solid #eee; text-align: center; }
         
-        /* 입력창 너비 정밀 조절 */
         .score-input { 
-            width: 75px; 
-            padding: 8px; border: 1.5px solid #ddd; 
+            width: 75px; padding: 8px; border: 1.5px solid #ddd; 
             border-radius: 6px; text-align: center; font-size: 0.95rem;
         }
         
         .grade-select { 
-            width: 105px; 
-            padding: 8px; border: 1.5px solid #ddd; 
-            border-radius: 6px; font-size: 0.9rem;
-            cursor: pointer;
+            width: 105px; padding: 8px; border: 1.5px solid #ddd; 
+            border-radius: 6px; font-size: 0.9rem; cursor: pointer;
         }
-
-        input:focus, select:focus { border-color: var(--accent); outline: none; }
 
         .grade-badge { padding: 4px 8px; border-radius: 4px; font-weight: bold; background: #34495e; color: white; font-size: 0.8rem; }
         .point-display { font-weight: 800; color: #e67e22; font-size: 1.1rem; }
         
-        /* 하단 안내 카드 */
         .info-card { 
-            margin-top: 15px;
-            padding: 15px;
-            background: #f8f9fa;
-            border: 1px solid #eee;
-            color: #666;
-            border-radius: 10px;
-            font-size: 0.85rem;
-            line-height: 1.6;
+            margin-top: 15px; padding: 15px; background: #f8f9fa;
+            border: 1px solid #eee; color: #666; border-radius: 10px;
+            font-size: 0.85rem; line-height: 1.6;
         }
-        .info-card strong { color: var(--primary); }
+
+        /* 하단 푸터 */
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.85rem;
+            color: #7f8c8d;
+            background: #e9ecef;
+            width: 100%;
+        }
 
         .no-input { color: #bbb; font-size: 0.8rem; font-style: italic; }
 
@@ -131,6 +157,10 @@
     </div>
 
     <div class="content-area">
+        <div class="swipe-notice">
+            <span>◀ 좌우로 밀어서 표 확인 ▶</span>
+        </div>
+
         <div class="table-wrapper">
             <table>
                 <thead>
@@ -148,12 +178,15 @@
 
         <div class="info-card">
             <strong>[입력 안내]</strong><br>
-            • <strong>사격:</strong> 합격 발수(0~20)를 입력하세요.<br>
-            • <strong>일반과목:</strong> 획득 점수(0~100)를 입력하세요.<br>
-            • <strong>기초체력:</strong> 등급만 선택하면 환산점이 자동 반영됩니다.
+            • 사격: 합격 발수(0~20) 입력 / 일반과목: 점수(0~100) 입력<br>
+            • 기초체력: 등급만 선택하면 환산점이 자동 반영됩니다.
         </div>
     </div>
 </div>
+
+<footer>
+    문의 : 국군수송사령부 교육장교
+</footer>
 
 <script>
     const scoreData = {
@@ -172,8 +205,6 @@
         subjects.forEach((sub, idx) => {
             const row = document.createElement('tr');
             const isPhysical = sub === "기초체력";
-            
-            // Placeholder 다시 설정 (0-20, 0-100)
             const placeholderText = sub === "사격" ? "0-20" : "0-100";
             const inputHtml = isPhysical 
                 ? `<span class="no-input">등급 선택</span>` 
