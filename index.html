@@ -9,25 +9,25 @@
         :root { 
             --primary: #2c3e50; --accent: #27ae60; --bg-color: #f1f3f5;
             --disabled: #e9ecef; --danger: #e74c3c; --gold: #f39c12;
-            --active-row: #f0f9ff; --score-low: #ff7f50; --score-high: #2ecc71; --blue: #3498db;
-            --setting-bg: #e2e8f0;
+            --active-row: #f0f9ff; --score-low: #ff7f50; --score-high: #2ecc71; 
+            --blue: #3498db; --setting-bg: #e2e8f0;
         }
 
         html, body { margin: 0; padding: 0; width: 100%; font-family: 'Pretendard', sans-serif; background-color: var(--bg-color); color: var(--primary); display: flex; flex-direction: column; min-height: 100vh; }
-        .container { width: 95%; max-width: 720px; margin: 15px auto; background: white; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); flex: 1; display: flex; flex-direction: column; }
+        .container { width: 95%; max-width: 720px; margin: 15px auto; background: white; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); flex: 1; display: flex; flex-direction: column; overflow: hidden; }
         
         .top-header { padding: 25px 12px; border-bottom: 2px solid #f8f9fa; display: flex; flex-direction: column; align-items: center; }
         .title-area { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
         .top-logo { width: 55px; height: 55px; background-color: var(--primary); display: flex; align-items: center; justify-content: center; border-radius: 12px; color: white; font-size: 1.8rem; }
-        h1 { margin: 0; font-size: 2.1rem; font-weight: 900; letter-spacing: -1.5px; color: #1a202c; }
+        h1 { margin: 0; font-size: 2.1rem; font-weight: 900; letter-spacing: -1.5px; color: #1a202c; white-space: nowrap; }
         
         .result-summary { width: 100%; max-width: 400px; background: var(--primary); padding: 20px; border-radius: 16px; color: white; text-align: center; box-sizing: border-box; }
         .total-score { font-size: 3.8rem; font-weight: 900; color: var(--score-low); margin: 0; line-height: 1; transition: color 0.4s; }
         .progress-container { width: 100%; background: rgba(255,255,255,0.2); height: 8px; border-radius: 10px; margin-top: 15px; overflow: hidden; }
         .progress-bar { width: 0%; height: 100%; background: var(--score-low); transition: width 0.5s; }
 
-        .content-area { padding: 20px 8px; }
-        .section-title { font-size: 1.1rem; font-weight: 800; margin: 20px 0 10px 5px; display: flex; align-items: center; gap: 8px; }
+        .content-area { padding: 20px 8px; flex: 1; }
+        .section-title { font-size: 1.1rem; font-weight: 800; margin: 25px 0 10px 5px; display: flex; align-items: center; gap: 8px; border-left: 4px solid var(--accent); padding-left: 10px; }
         
         .table-wrapper { width: 100%; overflow-x: auto; border: 1px solid #eee; border-radius: 14px; background: #fff; }
         table { width: 100%; border-collapse: collapse; min-width: 520px; }
@@ -35,62 +35,64 @@
         td { padding: 12px 4px; border-bottom: 1px solid #f1f5f9; text-align: center; }
         tr.active-row td { background-color: var(--active-row); }
 
-        .score-input, .grade-select { height: 46px; padding: 0 8px; border: 2px solid #e2e8f0; border-radius: 10px; text-align: center; font-size: 0.95rem; box-sizing: border-box; }
+        .score-input, .grade-select { height: 46px; padding: 0 8px; border: 2px solid #e2e8f0; border-radius: 10px; text-align: center; font-size: 0.95rem; box-sizing: border-box; transition: border-color 0.2s; }
+        .score-input:focus, .grade-select:focus { border-color: var(--blue); outline: none; }
         .score-input { width: 75px; }
         .grade-select { width: 110px; background-color: #fff; }
         .max-point-label { font-size: 0.75rem; color: #95a5a6; display: block; margin-top: 4px; }
 
-        .grade-badge { display: inline-block; padding: 5px 10px; border-radius: 6px; font-weight: 800; color: white; font-size: 0.8rem; background: #94a3b8; }
+        .grade-badge { display: inline-block; padding: 5px 10px; border-radius: 6px; font-weight: 800; color: white; font-size: 0.8rem; background: #94a3b8; min-width: 45px; }
         .grade-특급 { background-color: var(--gold); }
         .grade-3급미만, .grade-불합격 { background-color: var(--danger); }
         .grade-1급, .grade-2급, .grade-3급 { background-color: #34495e; }
 
         .physical-calc-card { margin-top: 10px; padding: 18px; border: 2px solid var(--blue); border-radius: 16px; background-color: #f0f7ff; }
-        .info-card { margin-top: 15px; padding: 18px; background: #f8fafc; border: 1px solid #e2e8f0; color: #475569; border-radius: 14px; font-size: 0.9rem; line-height: 1.7; }
+        .info-card { margin-top: 15px; padding: 18px; background: #f8fafc; border: 1px solid #e2e8f0; color: #475569; border-radius: 14px; font-size: 0.9rem; line-height: 1.6; }
 
-        .action-area { padding: 20px 10px 10px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
-        .btn { padding: 12px 25px; border-radius: 10px; font-weight: 700; cursor: pointer; border: none; display: flex; align-items: center; gap: 6px; font-size: 0.95rem; }
+        .action-area { padding: 20px 10px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; background: #fff; border-top: 1px solid #eee; }
+        .btn { padding: 12px 20px; border-radius: 10px; font-weight: 700; cursor: pointer; border: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem; }
         .reset-btn { background-color: #f1f2f6; color: #7f8c8d; }
         .save-btn { background-color: var(--primary); color: white; }
         .btn:hover { opacity: 0.9; transform: translateY(-2px); transition: all 0.2s; }
 
-        /* 설정 패널 스타일 */
-        .settings-panel {
-            margin: 20px 10px 40px; padding: 20px; background-color: var(--setting-bg);
-            border-radius: 16px; border: 1px solid #cbd5e1;
-        }
-        .settings-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; cursor: pointer; }
+        /* 설정 패널 */
+        .settings-panel { margin: 20px 10px; padding: 0; background-color: var(--setting-bg); border-radius: 16px; overflow: hidden; border: 1px solid #cbd5e1; }
+        .settings-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; cursor: pointer; background: #e2e8f0; transition: background 0.2s; }
+        .settings-header:hover { background: #d1d9e6; }
         .settings-title { font-weight: 800; color: #475569; display: flex; align-items: center; gap: 8px; }
-        .settings-content { display: none; }
-        .settings-content.open { display: block; animation: fadeIn 0.3s; }
+        .settings-content { display: none; padding: 20px; background: #f8f9fa; }
+        .settings-content.open { display: block; animation: slideDown 0.3s ease-out; }
         
-        .setting-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .setting-group { background: white; padding: 15px; border-radius: 10px; }
-        .setting-label { font-size: 0.85rem; font-weight: 700; margin-bottom: 10px; display: block; color: #64748b; border-bottom: 2px solid #f1f5f9; padding-bottom: 5px; }
-        
-        .input-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 0.85rem; }
-        .setting-input { width: 60px; padding: 5px; border: 1px solid #cbd5e1; border-radius: 6px; text-align: center; }
+        .setting-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .setting-group { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .setting-label { font-size: 0.85rem; font-weight: 700; margin-bottom: 12px; display: block; color: #64748b; border-bottom: 2px solid #f1f5f9; padding-bottom: 5px; }
+        .input-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 0.85rem; color: #2c3e50; font-weight: 600; }
+        .setting-input { width: 60px; padding: 6px; border: 1px solid #cbd5e1; border-radius: 6px; text-align: center; font-weight: bold; color: var(--primary); }
 
-        @media (max-width: 500px) {
-            .setting-grid { grid-template-columns: 1fr; }
+        @media (max-width: 500px) { .setting-grid { grid-template-columns: 1fr; } }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        footer { text-align: center; padding: 30px 10px; font-size: 0.8rem; color: #94a3b8; background: #f1f5f9; }
+
+        /* [수정됨] 이미지 내보내기용: 화면 뒤로 숨김 (z-index) */
+        #exportCardWrapper {
+            position: absolute; top: 0; left: 0; width: 100%; height: 0; overflow: hidden; z-index: -1;
         }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
-
-        footer { text-align: center; padding: 25px; font-size: 0.85rem; color: #94a3b8; background: #f1f5f9; }
-
-        /* 이미지 내보내기용 숨김 스타일 */
-        #exportCard { position: fixed; top: 0; left: -9999px; width: 500px; background: white; z-index: 9999; }
-        .card-header { background: var(--primary); color: white; padding: 30px 20px; text-align: center; }
-        .card-body { padding: 30px; }
-        .card-title { font-size: 1.8rem; font-weight: 900; margin: 0; }
-        .card-date { margin-top: 10px; opacity: 0.8; font-size: 0.9rem; }
-        .card-score-area { text-align: center; margin: 20px 0 30px; padding: 20px; background: #f8f9fa; border-radius: 15px; }
-        .card-total { font-size: 4rem; font-weight: 900; color: var(--primary); line-height: 1; }
-        .card-label { font-size: 1rem; color: #7f8c8d; margin-top: 5px; }
+        #exportCard {
+            width: 500px; background: white; margin: 0; padding: 0;
+            border: 1px solid #eee; font-family: 'Pretendard', sans-serif;
+        }
+        .card-header { background: var(--primary); color: white; padding: 35px 20px; text-align: center; }
+        .card-body { padding: 35px; }
+        .card-title { font-size: 2rem; font-weight: 900; margin: 0; letter-spacing: -1px; }
+        .card-date { margin-top: 10px; opacity: 0.8; font-size: 0.95rem; }
+        .card-score-area { text-align: center; margin: 25px 0 35px; padding: 25px; background: #f8f9fa; border-radius: 18px; border: 1px solid #edf2f7; }
+        .card-total { font-size: 4.5rem; font-weight: 900; color: var(--primary); line-height: 1; letter-spacing: -2px; }
+        .card-label { font-size: 1.1rem; color: #7f8c8d; margin-top: 8px; font-weight: 600; }
         .card-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        .card-table th { background: #f1f2f6; color: #2c3e50; padding: 10px; text-align: center; border-bottom: 2px solid #ddd; }
-        .card-table td { padding: 12px 10px; border-bottom: 1px solid #eee; text-align: center; color: #34495e; font-weight: 600; }
-        .card-footer { background: #ecf0f1; color: #7f8c8d; text-align: center; padding: 15px; font-size: 0.85rem; font-weight: 700; }
+        .card-table th { background: #f1f2f6; color: #2c3e50; padding: 12px; text-align: center; border-bottom: 2px solid #ddd; font-weight: 700; }
+        .card-table td { padding: 14px 10px; border-bottom: 1px solid #eee; text-align: center; color: #34495e; font-weight: 600; font-size: 1rem; }
+        .card-footer { background: #ecf0f1; color: #7f8c8d; text-align: center; padding: 18px; font-size: 0.9rem; font-weight: 700; letter-spacing: -0.5px; }
     </style>
 </head>
 <body>
@@ -135,146 +137,129 @@
             </table>
         </div>
 
+        <div class="settings-panel">
+            <div class="settings-header" onclick="toggleSettings()">
+                <div class="settings-title">⚙️ 관리자 설정 (배점 및 비율 변경)</div>
+                <div id="settingArrow">▼</div>
+            </div>
+            <div id="settingsContent" class="settings-content">
+                <div class="setting-grid">
+                    <div class="setting-group">
+                        <span class="setting-label">등급별 인정 비율 (%)</span>
+                        <div id="ratioInputs"></div>
+                    </div>
+                    <div class="setting-group">
+                        <span class="setting-label">과목별 만점 배점</span>
+                        <div id="subjectInputs"></div>
+                    </div>
+                </div>
+                <div style="margin-top: 20px; display:flex; justify-content:center; gap:10px;">
+                    <button class="btn" style="background:#95a5a6; color:white; font-size:0.85rem;" onclick="resetSettings()">🔄 설정 초기화</button>
+                    <button class="btn save-btn" onclick="saveSettings()">💾 설정 저장 및 적용</button>
+                </div>
+            </div>
+        </div>
+
         <div class="info-card">
-            <strong>💡 자동 계산 시스템</strong><br>
+            <strong>💡 자동 계산 및 저장</strong><br>
             • 과목별 배점에 등급 비율을 곱하여 <b>자동으로 점수가 산출</b>됩니다.<br>
-            • 배점이나 비율을 수정하려면 하단 <b>관리자 설정</b>을 이용하세요.
+            • 모든 입력 데이터는 브라우저에 <b>자동 저장</b>됩니다.
         </div>
     </div>
 
     <div class="action-area">
-        <button class="btn reset-btn" onclick="resetAll()">🗑️ 초기화</button>
+        <button class="btn reset-btn" onclick="resetAll()">🗑️ 입력 초기화</button>
         <button class="btn save-btn" onclick="downloadImage()">📸 결과 이미지 저장</button>
     </div>
-
-    <div class="settings-panel">
-        <div class="settings-header" onclick="toggleSettings()">
-            <div class="settings-title">⚙️ 관리자 설정 (배점 및 비율 변경)</div>
-            <div id="settingArrow">▼</div>
-        </div>
-        <div id="settingsContent" class="settings-content">
-            <div class="setting-grid">
-                <div class="setting-group">
-                    <span class="setting-label">등급별 인정 비율 (%)</span>
-                    <div id="ratioInputs"></div>
-                </div>
-                <div class="setting-group">
-                    <span class="setting-label">과목별 만점 배점</span>
-                    <div id="subjectInputs"></div>
-                </div>
-            </div>
-            <div style="margin-top: 15px; display:flex; justify-content:center; gap:10px;">
-                <button class="btn" style="background:#95a5a6; color:white; font-size:0.8rem;" onclick="resetSettings()">🔄 설정 초기화</button>
-                <button class="btn save-btn" onclick="saveSettings()">💾 설정 저장 및 적용</button>
-            </div>
-        </div>
-    </div>
-
 </div>
 
 <footer>문의 : 국군수송사령부 교육장교</footer>
 
-<div id="exportCard">
-    <div class="card-header">
-        <h2 class="card-title">🎖️ 교육훈련 평가 결과</h2>
-        <div class="card-date" id="cardDate"></div>
-    </div>
-    <div class="card-body">
-        <div class="card-score-area">
-            <div class="card-label">최종 환산 점수</div>
-            <div class="card-total" id="cardTotalScore">0.00</div>
-            <div class="card-label">/ 70.00 만점</div>
+<div id="exportCardWrapper">
+    <div id="exportCard">
+        <div class="card-header">
+            <h2 class="card-title">🎖️ 교육훈련 평가 결과</h2>
+            <div class="card-date" id="cardDate"></div>
         </div>
-        <table class="card-table">
-            <thead><tr><th width="35%">평가 과목</th><th width="30%">획득 등급</th><th width="35%">환산 점수</th></tr></thead>
-            <tbody id="cardTableBody"></tbody>
-        </table>
+        <div class="card-body">
+            <div class="card-score-area">
+                <div class="card-label">최종 환산 점수</div>
+                <div class="card-total" id="cardTotalScore">0.00</div>
+                <div class="card-label">/ 70.00 만점</div>
+            </div>
+            <table class="card-table">
+                <thead><tr><th width="35%">평가 과목</th><th width="30%">획득 등급</th><th width="35%">환산 점수</th></tr></thead>
+                <tbody id="cardTableBody"></tbody>
+            </table>
+        </div>
+        <div class="card-footer">국군수송사령부 교육훈련 점수 종합 시스템</div>
     </div>
-    <div class="card-footer">국군수송사령부 교육훈련 점수 종합 시스템</div>
 </div>
 
 <script>
-    // ============================================
-    // 1. 기본값 (초기화 시 돌아갈 값)
-    // ============================================
-    const DEFAULT_RATIOS = {
-        "특급": 1.0,
-        "1급": 0.929,
-        "2급": 0.858,
-        "3급": 0.786,
-        "3급 미만": 0.572,
-        "불합격": 0.429
-    };
-
+    // 1. 기본값 상수 (초기화 시 복구용)
+    const DEFAULT_RATIOS = { "특급": 1.0, "1급": 0.929, "2급": 0.858, "3급": 0.786, "3급 미만": 0.572, "불합격": 0.429 };
+    // [보완] type 속성 추가로 식별성 강화
     const DEFAULT_SUBJECTS = [
-        { name: "정신전력", max: 10 },
-        { name: "기초체력", max: 10 },
-        { name: "사격", max: 10 },
-        { name: "핵 및 화생방", max: 5 },
-        { name: "TCCC", max: 5 },
-        { name: "주특기", max: 30 }
+        { name: "정신전력", max: 10, type: "general" },
+        { name: "기초체력", max: 10, type: "physical" },
+        { name: "사격", max: 10, type: "shooting" },
+        { name: "핵 및 화생방", max: 5, type: "general" },
+        { name: "TCCC", max: 5, type: "general" },
+        { name: "주특기", max: 30, type: "general" }
     ];
 
-    // 현재 사용할 설정 변수
     let currentRatios = { ...DEFAULT_RATIOS };
     let currentSubjects = JSON.parse(JSON.stringify(DEFAULT_SUBJECTS));
 
-    // ============================================
-    // 2. 초기화 및 설정 로드
-    // ============================================
+    // 2. 초기화 실행
     function init() {
-        loadSettingsFromStorage(); // 설정 불러오기
-        renderMainTable();         // 메인 테이블 그리기
-        renderSettingsPanel();     // 설정창 그리기
-        loadScoreDataFromStorage();// 점수 데이터 불러오기
+        loadSettingsFromStorage();
+        renderMainTable();
+        renderSettingsPanel();
+        loadScoreDataFromStorage();
     }
 
-    // 설정값 불러오기 (Local Storage -> Memory)
+    // --- 설정 관리 (LocalStorage) ---
     function loadSettingsFromStorage() {
-        const savedSettings = localStorage.getItem('militarySettings');
-        if (savedSettings) {
-            const parsed = JSON.parse(savedSettings);
+        const saved = localStorage.getItem('militarySettings');
+        if (saved) {
+            const parsed = JSON.parse(saved);
             currentRatios = parsed.ratios;
             currentSubjects = parsed.subjects;
         }
     }
 
-    // 설정값 저장하기 (Memory -> Local Storage) -> 화면 갱신
     function saveSettings() {
-        // 1. 비율값 읽기
-        const ratioKeys = Object.keys(currentRatios);
-        ratioKeys.forEach(key => {
+        // 유효성 검사 및 저장
+        Object.keys(currentRatios).forEach(key => {
             const input = document.getElementById(`ratio_input_${key}`);
             if(input) {
-                // 퍼센트 입력을 소수로 변환 (92.9 -> 0.929)
-                currentRatios[key] = parseFloat(input.value) / 100; 
+                let val = parseFloat(input.value);
+                if(val < 0) val = 0; if(val > 100) val = 100; // 0~100 범위 제한
+                currentRatios[key] = val / 100;
             }
         });
 
-        // 2. 배점값 읽기
         currentSubjects.forEach((sub, idx) => {
             const input = document.getElementById(`subject_input_${idx}`);
-            if(input) {
-                sub.max = parseFloat(input.value);
-            }
+            if(input) sub.max = Math.max(0, parseFloat(input.value)); // 음수 방지
         });
 
-        // 3. 저장
-        const settingsToSave = {
-            ratios: currentRatios,
-            subjects: currentSubjects
-        };
-        localStorage.setItem('militarySettings', JSON.stringify(settingsToSave));
+        localStorage.setItem('militarySettings', JSON.stringify({ ratios: currentRatios, subjects: currentSubjects }));
         
-        // 4. 리로드 및 적용
-        alert("설정이 저장되었습니다. 점수가 재계산됩니다.");
+        alert("설정이 저장되었습니다.");
         renderMainTable();
-        // 기존 입력된 점수들이 새로운 배점에 맞춰 재계산되어야 하므로 trigger
+        // 기존 입력값 재계산 트리거
         currentSubjects.forEach((_, idx) => {
-            const grade = document.getElementById(`select_${idx}`).value;
-            if(grade) applyResult(idx, grade);
+            const input = document.getElementById(`input_${idx}`);
+            if(input && input.value) handleInput(idx, false);
+            else {
+                const sel = document.getElementById(`select_${idx}`);
+                if(sel && sel.value) applyResult(idx, sel.value);
+            }
         });
-        toggleSettings(); // 패널 닫기
+        toggleSettings();
     }
 
     function resetSettings() {
@@ -284,50 +269,38 @@
             currentSubjects = JSON.parse(JSON.stringify(DEFAULT_SUBJECTS));
             renderSettingsPanel();
             renderMainTable();
+            renderMainTable(); // UI 갱신
             alert("설정이 초기화되었습니다.");
         }
     }
 
-    // ============================================
-    // 3. 렌더링 함수들
-    // ============================================
-    
-    // 메인 테이블 그리기
+    // --- 렌더링 ---
     function renderMainTable() {
         const tbody = document.getElementById('scoreTableBody');
-        // 기존 입력값 백업
-        const oldInputs = {};
+        // 값 유지 로직
+        const oldData = {};
         currentSubjects.forEach((_, idx) => {
-             const inp = document.getElementById(`input_${idx}`);
-             const sel = document.getElementById(`select_${idx}`);
-             if(inp && inp.value) oldInputs[idx] = { type: 'input', val: inp.value };
-             else if(sel && sel.value) oldInputs[idx] = { type: 'select', val: sel.value };
+            const i = document.getElementById(`input_${idx}`);
+            const s = document.getElementById(`select_${idx}`);
+            if(i) oldData[idx] = { val: i.value, type: 'input' };
+            else if(s) oldData[idx] = { val: s.value, type: 'select' };
         });
 
         tbody.innerHTML = '';
         currentSubjects.forEach((sub, idx) => {
-            const isPhys = sub.name === "기초체력";
+            const isPhys = sub.type === "physical";
+            const isShoot = sub.type === "shooting";
             const row = document.createElement('tr');
             row.id = `row_${idx}`;
+            
             row.innerHTML = `
-                <td>
-                    <b>${sub.name}</b>
-                    <span class="max-point-label">(${sub.max}점)</span>
-                </td>
-                <td>
-                    ${isPhys ? 
-                    `<span style="font-size:0.8rem; color:var(--blue)">하단 계산기 이용</span>` : 
-                    `<input type="number" class="score-input" id="input_${idx}" oninput="handleInput(${idx}, true)" placeholder="0-${sub.name==='사격'?'20':'100'}">`}
-                </td>
+                <td><b>${sub.name}</b><span class="max-point-label">(${sub.max}점)</span></td>
+                <td>${isPhys ? `<span style="font-size:0.8rem; color:var(--blue)">하단 계산기 이용</span>` : 
+                    `<input type="number" class="score-input" id="input_${idx}" oninput="handleInput(${idx}, true)" placeholder="0-${isShoot?'20':'100'}">`}</td>
                 <td>
                     <select class="grade-select" id="select_${idx}" onchange="handleSelect(${idx}, true)" ${isPhys ? 'disabled' : ''}>
                         <option value="">선택</option>
-                        <option value="특급">특급</option>
-                        <option value="1급">1급</option>
-                        <option value="2급">2급</option>
-                        <option value="3급">3급</option>
-                        <option value="3급 미만">3급 미만</option>
-                        <option value="불합격">불합격</option>
+                        ${Object.keys(currentRatios).map(r => `<option value="${r}">${r}</option>`).join('')}
                     </select>
                 </td>
                 <td><span id="grade_${idx}" class="grade-badge">-</span></td>
@@ -336,46 +309,32 @@
             tbody.appendChild(row);
         });
 
-        // 백업된 값 복구 (UI 재생성 시 값 유지 위해)
-        Object.keys(oldInputs).forEach(idx => {
-            const data = oldInputs[idx];
-            if(data.type === 'input') {
-                document.getElementById(`input_${idx}`).value = data.val;
-                handleInput(idx, false);
-            } else {
-                document.getElementById(`select_${idx}`).value = data.val;
-                if(document.getElementById(`input_${idx}`)) document.getElementById(`input_${idx}`).disabled = true;
-                applyResult(idx, data.val);
+        // 값 복원
+        Object.keys(oldData).forEach(idx => {
+            if(oldData[idx].val) {
+                if(oldData[idx].type === 'input') {
+                    document.getElementById(`input_${idx}`).value = oldData[idx].val;
+                    handleInput(idx, false);
+                } else {
+                    document.getElementById(`select_${idx}`).value = oldData[idx].val;
+                    const inp = document.getElementById(`input_${idx}`);
+                    if(inp) inp.disabled = true;
+                    applyResult(idx, oldData[idx].val);
+                }
             }
         });
     }
 
-    // 설정 패널 그리기
     function renderSettingsPanel() {
-        // 비율 설정
-        const ratioContainer = document.getElementById('ratioInputs');
-        ratioContainer.innerHTML = '';
-        Object.keys(currentRatios).forEach(key => {
-            const percent = (currentRatios[key] * 100).toFixed(1); // 소수를 %로 표시
-            ratioContainer.innerHTML += `
-                <div class="input-row">
-                    <span>${key}</span>
-                    <div><input type="number" id="ratio_input_${key}" class="setting-input" value="${percent}"> %</div>
-                </div>
-            `;
-        });
+        const rBox = document.getElementById('ratioInputs');
+        rBox.innerHTML = Object.keys(currentRatios).map(key => `
+            <div class="input-row"><span>${key}</span><div><input type="number" id="ratio_input_${key}" class="setting-input" value="${(currentRatios[key]*100).toFixed(1)}"> %</div></div>
+        `).join('');
 
-        // 배점 설정
-        const subjectContainer = document.getElementById('subjectInputs');
-        subjectContainer.innerHTML = '';
-        currentSubjects.forEach((sub, idx) => {
-            subjectContainer.innerHTML += `
-                <div class="input-row">
-                    <span>${sub.name}</span>
-                    <div><input type="number" id="subject_input_${idx}" class="setting-input" value="${sub.max}"> 점</div>
-                </div>
-            `;
-        });
+        const sBox = document.getElementById('subjectInputs');
+        sBox.innerHTML = currentSubjects.map((sub, idx) => `
+            <div class="input-row"><span>${sub.name}</span><div><input type="number" id="subject_input_${idx}" class="setting-input" value="${sub.max}"> 점</div></div>
+        `).join('');
     }
 
     function toggleSettings() {
@@ -390,19 +349,16 @@
         }
     }
 
-    // ============================================
-    // 4. 계산 로직 (수정된 변수 사용)
-    // ============================================
-
+    // --- 계산 로직 ---
     function calculateScore(maxScore, grade) {
         if (!grade || currentRatios[grade] === undefined) return 0;
-        const rawScore = maxScore * currentRatios[grade];
-        return Math.ceil(rawScore * 100) / 100; // 셋째자리 올림
+        return Math.ceil(maxScore * currentRatios[grade] * 100) / 100; // 3째자리 올림
     }
 
     function calcPhys(save = false) {
         const sum = parseInt(document.getElementById('runG').value) + parseInt(document.getElementById('pushG').value) + parseInt(document.getElementById('sitG').value);
         document.getElementById('physSumDisplay').innerText = sum;
+        
         let grade = "불합격";
         if (sum >= 20) grade = "특급";
         else if (sum >= 16) grade = "1급";
@@ -410,8 +366,12 @@
         else if (sum >= 8) grade = "3급";
         else if (sum >= 1) grade = "3급 미만";
         
-        applyResult(1, grade); // 기초체력 인덱스 1
-        document.getElementById('select_1').value = grade;
+        // 기초체력(physical 타입) 찾아서 반영
+        const physIdx = currentSubjects.findIndex(s => s.type === "physical");
+        if(physIdx >= 0) {
+            applyResult(physIdx, grade);
+            document.getElementById(`select_${physIdx}`).value = grade;
+        }
         if(save) saveScoreData();
     }
 
@@ -419,15 +379,15 @@
         const inputEl = document.getElementById(`input_${idx}`);
         const selectEl = document.getElementById(`select_${idx}`);
         const val = parseFloat(inputEl.value);
-        const subName = currentSubjects[idx].name;
+        const type = currentSubjects[idx].type;
 
         if (isNaN(val)) { 
-            selectEl.disabled = false; 
-            applyResult(idx, ""); 
+            selectEl.disabled = false; applyResult(idx, ""); 
         } else {
             selectEl.disabled = true;
             let grade = "불합격";
-            if (subName === "사격") {
+            // [보완] 과목 이름 대신 type으로 확인하여 안정성 확보
+            if (type === "shooting") {
                 if (val >= 18) grade = "특급"; else if (val >= 16) grade = "1급"; else if (val >= 14) grade = "2급"; else if (val >= 12) grade = "3급"; else if (val >= 1) grade = "3급 미만";
             } else {
                 if (val >= 90) grade = "특급"; else if (val >= 80) grade = "1급"; else if (val >= 70) grade = "2급"; else if (val >= 60) grade = "3급"; else if (val > 0) grade = "3급 미만";
@@ -441,11 +401,9 @@
         const inputEl = document.getElementById(`input_${idx}`);
         const selectEl = document.getElementById(`select_${idx}`);
         if (selectEl.value !== "") { 
-            if(inputEl) inputEl.disabled = true; 
-            applyResult(idx, selectEl.value); 
+            if(inputEl) inputEl.disabled = true; applyResult(idx, selectEl.value); 
         } else { 
-            if(inputEl) inputEl.disabled = false; 
-            applyResult(idx, ""); 
+            if(inputEl) inputEl.disabled = false; applyResult(idx, ""); 
         }
         if(save) saveScoreData();
     }
@@ -454,9 +412,8 @@
         const maxScore = currentSubjects[idx].max;
         const point = calculateScore(maxScore, grade);
         
-        const gradeEl = document.getElementById(`grade_${idx}`);
-        gradeEl.innerText = grade || "-";
-        gradeEl.className = `grade-badge ${grade ? 'grade-' + grade.replace(" ", "") : ""}`;
+        document.getElementById(`grade_${idx}`).innerText = grade || "-";
+        document.getElementById(`grade_${idx}`).className = `grade-badge ${grade ? 'grade-' + grade.replace(" ", "") : ""}`;
         document.getElementById(`point_${idx}`).innerText = point.toFixed(2);
         
         const row = document.getElementById(`row_${idx}`);
@@ -475,20 +432,17 @@
         document.getElementById('progressBar').style.background = color;
     }
 
-    // ============================================
-    // 5. 점수 데이터 저장/로드 (사용자 입력값)
-    // ============================================
-
+    // --- 데이터 저장/로드 (사용자 점수) ---
     function saveScoreData() {
         const data = {
             inputs: [], selects: [],
             phys: { run: document.getElementById('runG').value, push: document.getElementById('pushG').value, sit: document.getElementById('sitG').value }
         };
         currentSubjects.forEach((_, idx) => {
-            const input = document.getElementById(`input_${idx}`);
-            const select = document.getElementById(`select_${idx}`);
-            data.inputs.push(input ? input.value : "");
-            data.selects.push(select ? select.value : "");
+            const i = document.getElementById(`input_${idx}`);
+            const s = document.getElementById(`select_${idx}`);
+            data.inputs.push(i ? i.value : "");
+            data.selects.push(s ? s.value : "");
         });
         localStorage.setItem('militaryScoreData', JSON.stringify(data));
     }
@@ -504,20 +458,21 @@
             calcPhys(false);
         }
         currentSubjects.forEach((_, idx) => {
-            const input = document.getElementById(`input_${idx}`);
-            const select = document.getElementById(`select_${idx}`);
-            if (input && data.inputs[idx]) { input.value = data.inputs[idx]; handleInput(idx, false); } 
-            else if (select && data.selects[idx]) { select.value = data.selects[idx]; handleSelect(idx, false); }
+            const i = document.getElementById(`input_${idx}`);
+            const s = document.getElementById(`select_${idx}`);
+            if (i && data.inputs[idx]) { i.value = data.inputs[idx]; handleInput(idx, false); }
+            else if (s && data.selects[idx]) { s.value = data.selects[idx]; handleSelect(idx, false); }
         });
     }
 
     function resetAll() {
-        if(confirm("입력한 점수 데이터를 모두 삭제하시겠습니까? (설정값은 유지됩니다)")) {
+        if(confirm("입력한 점수를 모두 삭제하시겠습니까? (관리자 설정은 유지됨)")) {
             localStorage.removeItem('militaryScoreData');
             location.reload();
         }
     }
 
+    // --- 이미지 내보내기 (수정됨: html2canvas 버그 방지) ---
     function downloadImage() {
         const today = new Date();
         document.getElementById('cardDate').innerText = `${today.getFullYear()}. ${today.getMonth()+1}. ${today.getDate()}`;
@@ -536,11 +491,14 @@
         if(tbody.innerHTML === '') { alert("점수를 입력해주세요."); return; }
         
         const card = document.getElementById('exportCard');
-        html2canvas(card, { scale: 2 }).then(canvas => {
+        html2canvas(card, { scale: 2, useCORS: true }).then(canvas => {
             const link = document.createElement('a');
             link.download = `교육훈련평가_${today.toISOString().slice(0,10)}.png`;
             link.href = canvas.toDataURL();
             link.click();
+        }).catch(err => {
+            console.error(err);
+            alert("이미지 저장 중 오류가 발생했습니다.");
         });
     }
 
