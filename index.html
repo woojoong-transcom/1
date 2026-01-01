@@ -10,18 +10,17 @@
             --primary: #2c3e50; --accent: #27ae60; --bg-color: #f1f3f5;
             --disabled: #e9ecef; --danger: #e74c3c; --gold: #f39c12;
             --active-row: #f0f9ff; --score-low: #ff7f50; --score-high: #2ecc71; --blue: #3498db;
+            --setting-bg: #e2e8f0;
         }
 
         html, body { margin: 0; padding: 0; width: 100%; font-family: 'Pretendard', sans-serif; background-color: var(--bg-color); color: var(--primary); display: flex; flex-direction: column; min-height: 100vh; }
         .container { width: 95%; max-width: 720px; margin: 15px auto; background: white; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); flex: 1; display: flex; flex-direction: column; }
         
-        /* 상단 헤더 */
         .top-header { padding: 25px 12px; border-bottom: 2px solid #f8f9fa; display: flex; flex-direction: column; align-items: center; }
         .title-area { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
         .top-logo { width: 55px; height: 55px; background-color: var(--primary); display: flex; align-items: center; justify-content: center; border-radius: 12px; color: white; font-size: 1.8rem; }
         h1 { margin: 0; font-size: 2.1rem; font-weight: 900; letter-spacing: -1.5px; color: #1a202c; }
         
-        /* 결과 요약 */
         .result-summary { width: 100%; max-width: 400px; background: var(--primary); padding: 20px; border-radius: 16px; color: white; text-align: center; box-sizing: border-box; }
         .total-score { font-size: 3.8rem; font-weight: 900; color: var(--score-low); margin: 0; line-height: 1; transition: color 0.4s; }
         .progress-container { width: 100%; background: rgba(255,255,255,0.2); height: 8px; border-radius: 10px; margin-top: 15px; overflow: hidden; }
@@ -30,7 +29,6 @@
         .content-area { padding: 20px 8px; }
         .section-title { font-size: 1.1rem; font-weight: 800; margin: 20px 0 10px 5px; display: flex; align-items: center; gap: 8px; }
         
-        /* 테이블 스타일 */
         .table-wrapper { width: 100%; overflow-x: auto; border: 1px solid #eee; border-radius: 14px; background: #fff; }
         table { width: 100%; border-collapse: collapse; min-width: 520px; }
         th { background: #fbfbfc; padding: 15px 5px; font-size: 0.85rem; border-bottom: 2px solid #edf2f7; color: #64748b; }
@@ -40,6 +38,7 @@
         .score-input, .grade-select { height: 46px; padding: 0 8px; border: 2px solid #e2e8f0; border-radius: 10px; text-align: center; font-size: 0.95rem; box-sizing: border-box; }
         .score-input { width: 75px; }
         .grade-select { width: 110px; background-color: #fff; }
+        .max-point-label { font-size: 0.75rem; color: #95a5a6; display: block; margin-top: 4px; }
 
         .grade-badge { display: inline-block; padding: 5px 10px; border-radius: 6px; font-weight: 800; color: white; font-size: 0.8rem; background: #94a3b8; }
         .grade-특급 { background-color: var(--gold); }
@@ -49,23 +48,38 @@
         .physical-calc-card { margin-top: 10px; padding: 18px; border: 2px solid var(--blue); border-radius: 16px; background-color: #f0f7ff; }
         .info-card { margin-top: 15px; padding: 18px; background: #f8fafc; border: 1px solid #e2e8f0; color: #475569; border-radius: 14px; font-size: 0.9rem; line-height: 1.7; }
 
-        /* 하단 버튼 영역 */
-        .action-area { padding: 20px 10px 40px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+        .action-area { padding: 20px 10px 10px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
         .btn { padding: 12px 25px; border-radius: 10px; font-weight: 700; cursor: pointer; border: none; display: flex; align-items: center; gap: 6px; font-size: 0.95rem; }
         .reset-btn { background-color: #f1f2f6; color: #7f8c8d; }
         .save-btn { background-color: var(--primary); color: white; }
         .btn:hover { opacity: 0.9; transform: translateY(-2px); transition: all 0.2s; }
 
+        /* 설정 패널 스타일 */
+        .settings-panel {
+            margin: 20px 10px 40px; padding: 20px; background-color: var(--setting-bg);
+            border-radius: 16px; border: 1px solid #cbd5e1;
+        }
+        .settings-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; cursor: pointer; }
+        .settings-title { font-weight: 800; color: #475569; display: flex; align-items: center; gap: 8px; }
+        .settings-content { display: none; }
+        .settings-content.open { display: block; animation: fadeIn 0.3s; }
+        
+        .setting-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .setting-group { background: white; padding: 15px; border-radius: 10px; }
+        .setting-label { font-size: 0.85rem; font-weight: 700; margin-bottom: 10px; display: block; color: #64748b; border-bottom: 2px solid #f1f5f9; padding-bottom: 5px; }
+        
+        .input-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 0.85rem; }
+        .setting-input { width: 60px; padding: 5px; border: 1px solid #cbd5e1; border-radius: 6px; text-align: center; }
+
+        @media (max-width: 500px) {
+            .setting-grid { grid-template-columns: 1fr; }
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
         footer { text-align: center; padding: 25px; font-size: 0.85rem; color: #94a3b8; background: #f1f5f9; }
 
-        /* [숨겨진 요소] 이미지 카드 내보내기용 스타일 */
-        #exportCard {
-            position: fixed; top: 0; left: -9999px; /* 화면 밖으로 숨김 */
-            width: 500px; background: white; padding: 0;
-            border: 1px solid #ddd; border-radius: 0;
-            font-family: 'Pretendard', sans-serif;
-            z-index: 9999;
-        }
+        /* 이미지 내보내기용 숨김 스타일 */
+        #exportCard { position: fixed; top: 0; left: -9999px; width: 500px; background: white; z-index: 9999; }
         .card-header { background: var(--primary); color: white; padding: 30px 20px; text-align: center; }
         .card-body { padding: 30px; }
         .card-title { font-size: 1.8rem; font-weight: 900; margin: 0; }
@@ -96,7 +110,7 @@
         <div class="table-wrapper">
             <table>
                 <thead>
-                    <tr><th>과목명</th><th>점수 입력</th><th>등급 선택</th><th>판정</th><th>환산점수</th></tr>
+                    <tr><th width="20%">과목명</th><th width="22%">점수 입력</th><th width="23%">등급 선택</th><th width="15%">판정</th><th width="20%">환산점수</th></tr>
                 </thead>
                 <tbody id="scoreTableBody"></tbody>
             </table>
@@ -122,9 +136,9 @@
         </div>
 
         <div class="info-card">
-            <strong>💡 자동 저장 기능</strong><br>
-            • 입력하신 점수는 브라우저에 <b>자동으로 저장</b>되어 다시 접속해도 유지됩니다.<br>
-            • 초기화를 원하시면 하단 [초기화] 버튼을 눌러주세요.
+            <strong>💡 자동 계산 시스템</strong><br>
+            • 과목별 배점에 등급 비율을 곱하여 <b>자동으로 점수가 산출</b>됩니다.<br>
+            • 배점이나 비율을 수정하려면 하단 <b>관리자 설정</b>을 이용하세요.
         </div>
     </div>
 
@@ -132,6 +146,30 @@
         <button class="btn reset-btn" onclick="resetAll()">🗑️ 초기화</button>
         <button class="btn save-btn" onclick="downloadImage()">📸 결과 이미지 저장</button>
     </div>
+
+    <div class="settings-panel">
+        <div class="settings-header" onclick="toggleSettings()">
+            <div class="settings-title">⚙️ 관리자 설정 (배점 및 비율 변경)</div>
+            <div id="settingArrow">▼</div>
+        </div>
+        <div id="settingsContent" class="settings-content">
+            <div class="setting-grid">
+                <div class="setting-group">
+                    <span class="setting-label">등급별 인정 비율 (%)</span>
+                    <div id="ratioInputs"></div>
+                </div>
+                <div class="setting-group">
+                    <span class="setting-label">과목별 만점 배점</span>
+                    <div id="subjectInputs"></div>
+                </div>
+            </div>
+            <div style="margin-top: 15px; display:flex; justify-content:center; gap:10px;">
+                <button class="btn" style="background:#95a5a6; color:white; font-size:0.8rem;" onclick="resetSettings()">🔄 설정 초기화</button>
+                <button class="btn save-btn" onclick="saveSettings()">💾 설정 저장 및 적용</button>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <footer>문의 : 국군수송사령부 교육장교</footer>
@@ -139,7 +177,7 @@
 <div id="exportCard">
     <div class="card-header">
         <h2 class="card-title">🎖️ 교육훈련 평가 결과</h2>
-        <div class="card-date" id="cardDate">2026. 01. 01</div>
+        <div class="card-date" id="cardDate"></div>
     </div>
     <div class="card-body">
         <div class="card-score-area">
@@ -147,68 +185,224 @@
             <div class="card-total" id="cardTotalScore">0.00</div>
             <div class="card-label">/ 70.00 만점</div>
         </div>
-        
         <table class="card-table">
-            <thead>
-                <tr>
-                    <th width="35%">평가 과목</th>
-                    <th width="30%">획득 등급</th>
-                    <th width="35%">환산 점수</th>
-                </tr>
-            </thead>
-            <tbody id="cardTableBody">
-                </tbody>
+            <thead><tr><th width="35%">평가 과목</th><th width="30%">획득 등급</th><th width="35%">환산 점수</th></tr></thead>
+            <tbody id="cardTableBody"></tbody>
         </table>
     </div>
-    <div class="card-footer">
-        국군수송사령부 교육훈련 점수 종합 시스템
-    </div>
+    <div class="card-footer">국군수송사령부 교육훈련 점수 종합 시스템</div>
 </div>
 
 <script>
-    // 3급 점수 상향 조정 반영된 데이터
-    const scoreData = {
-        "정신전력": { "특급": 10, "1급": 9.29, "2급": 8.58, "3급": 7.86, "3급 미만": 5.72, "불합격": 4.29 },
-        "기초체력": { "특급": 10, "1급": 9.29, "2급": 8.58, "3급": 7.86, "3급 미만": 5.72, "불합격": 4.29 },
-        "사격": { "특급": 10, "1급": 9.29, "2급": 8.58, "3급": 7.86, "3급 미만": 5.72, "불합격": 4.29 },
-        "핵 및 화생방": { "특급": 5, "1급": 4.65, "2급": 4.29, "3급": 3.93, "3급 미만": 2.56, "불합격": 2.15 },
-        "TCCC": { "특급": 5, "1급": 4.65, "2급": 4.29, "3급": 3.93, "3급 미만": 2.56, "불합격": 2.15 },
-        "주특기": { "특급": 30, "1급": 27.86, "2급": 25.72, "3급": 23.58, "3급 미만": 17.15, "불합격": 12.86 }
+    // ============================================
+    // 1. 기본값 (초기화 시 돌아갈 값)
+    // ============================================
+    const DEFAULT_RATIOS = {
+        "특급": 1.0,
+        "1급": 0.929,
+        "2급": 0.858,
+        "3급": 0.786,
+        "3급 미만": 0.572,
+        "불합격": 0.429
     };
 
-    const subjects = Object.keys(scoreData);
+    const DEFAULT_SUBJECTS = [
+        { name: "정신전력", max: 10 },
+        { name: "기초체력", max: 10 },
+        { name: "사격", max: 10 },
+        { name: "핵 및 화생방", max: 5 },
+        { name: "TCCC", max: 5 },
+        { name: "주특기", max: 30 }
+    ];
 
+    // 현재 사용할 설정 변수
+    let currentRatios = { ...DEFAULT_RATIOS };
+    let currentSubjects = JSON.parse(JSON.stringify(DEFAULT_SUBJECTS));
+
+    // ============================================
+    // 2. 초기화 및 설정 로드
+    // ============================================
     function init() {
+        loadSettingsFromStorage(); // 설정 불러오기
+        renderMainTable();         // 메인 테이블 그리기
+        renderSettingsPanel();     // 설정창 그리기
+        loadScoreDataFromStorage();// 점수 데이터 불러오기
+    }
+
+    // 설정값 불러오기 (Local Storage -> Memory)
+    function loadSettingsFromStorage() {
+        const savedSettings = localStorage.getItem('militarySettings');
+        if (savedSettings) {
+            const parsed = JSON.parse(savedSettings);
+            currentRatios = parsed.ratios;
+            currentSubjects = parsed.subjects;
+        }
+    }
+
+    // 설정값 저장하기 (Memory -> Local Storage) -> 화면 갱신
+    function saveSettings() {
+        // 1. 비율값 읽기
+        const ratioKeys = Object.keys(currentRatios);
+        ratioKeys.forEach(key => {
+            const input = document.getElementById(`ratio_input_${key}`);
+            if(input) {
+                // 퍼센트 입력을 소수로 변환 (92.9 -> 0.929)
+                currentRatios[key] = parseFloat(input.value) / 100; 
+            }
+        });
+
+        // 2. 배점값 읽기
+        currentSubjects.forEach((sub, idx) => {
+            const input = document.getElementById(`subject_input_${idx}`);
+            if(input) {
+                sub.max = parseFloat(input.value);
+            }
+        });
+
+        // 3. 저장
+        const settingsToSave = {
+            ratios: currentRatios,
+            subjects: currentSubjects
+        };
+        localStorage.setItem('militarySettings', JSON.stringify(settingsToSave));
+        
+        // 4. 리로드 및 적용
+        alert("설정이 저장되었습니다. 점수가 재계산됩니다.");
+        renderMainTable();
+        // 기존 입력된 점수들이 새로운 배점에 맞춰 재계산되어야 하므로 trigger
+        currentSubjects.forEach((_, idx) => {
+            const grade = document.getElementById(`select_${idx}`).value;
+            if(grade) applyResult(idx, grade);
+        });
+        toggleSettings(); // 패널 닫기
+    }
+
+    function resetSettings() {
+        if(confirm("배점 및 비율 설정을 초기값으로 되돌리시겠습니까?")) {
+            localStorage.removeItem('militarySettings');
+            currentRatios = { ...DEFAULT_RATIOS };
+            currentSubjects = JSON.parse(JSON.stringify(DEFAULT_SUBJECTS));
+            renderSettingsPanel();
+            renderMainTable();
+            alert("설정이 초기화되었습니다.");
+        }
+    }
+
+    // ============================================
+    // 3. 렌더링 함수들
+    // ============================================
+    
+    // 메인 테이블 그리기
+    function renderMainTable() {
         const tbody = document.getElementById('scoreTableBody');
+        // 기존 입력값 백업
+        const oldInputs = {};
+        currentSubjects.forEach((_, idx) => {
+             const inp = document.getElementById(`input_${idx}`);
+             const sel = document.getElementById(`select_${idx}`);
+             if(inp && inp.value) oldInputs[idx] = { type: 'input', val: inp.value };
+             else if(sel && sel.value) oldInputs[idx] = { type: 'select', val: sel.value };
+        });
+
         tbody.innerHTML = '';
-        subjects.forEach((sub, idx) => {
-            const isPhys = sub === "기초체력";
+        currentSubjects.forEach((sub, idx) => {
+            const isPhys = sub.name === "기초체력";
             const row = document.createElement('tr');
             row.id = `row_${idx}`;
             row.innerHTML = `
-                <td><b>${sub}</b></td>
-                <td>${isPhys ? `<span style="font-size:0.8rem; color:var(--blue)">하단 계산기 이용</span>` : `<input type="number" class="score-input" id="input_${idx}" oninput="handleInput(${idx}, true)" placeholder="${sub==='사격'?'0-20':'0-100'}">`}</td>
-                <td><select class="grade-select" id="select_${idx}" onchange="handleSelect(${idx}, true)" ${isPhys ? 'disabled' : ''}><option value="">선택</option><option value="특급">특급</option><option value="1급">1급</option><option value="2급">2급</option><option value="3급">3급</option><option value="3급 미만">3급 미만</option><option value="불합격">불합격</option></select></td>
+                <td>
+                    <b>${sub.name}</b>
+                    <span class="max-point-label">(${sub.max}점)</span>
+                </td>
+                <td>
+                    ${isPhys ? 
+                    `<span style="font-size:0.8rem; color:var(--blue)">하단 계산기 이용</span>` : 
+                    `<input type="number" class="score-input" id="input_${idx}" oninput="handleInput(${idx}, true)" placeholder="0-${sub.name==='사격'?'20':'100'}">`}
+                </td>
+                <td>
+                    <select class="grade-select" id="select_${idx}" onchange="handleSelect(${idx}, true)" ${isPhys ? 'disabled' : ''}>
+                        <option value="">선택</option>
+                        <option value="특급">특급</option>
+                        <option value="1급">1급</option>
+                        <option value="2급">2급</option>
+                        <option value="3급">3급</option>
+                        <option value="3급 미만">3급 미만</option>
+                        <option value="불합격">불합격</option>
+                    </select>
+                </td>
                 <td><span id="grade_${idx}" class="grade-badge">-</span></td>
                 <td><span id="point_${idx}" class="display-point">0.00</span></td>
             `;
             tbody.appendChild(row);
         });
-        
-        // 데이터 로드
-        loadFromStorage();
+
+        // 백업된 값 복구 (UI 재생성 시 값 유지 위해)
+        Object.keys(oldInputs).forEach(idx => {
+            const data = oldInputs[idx];
+            if(data.type === 'input') {
+                document.getElementById(`input_${idx}`).value = data.val;
+                handleInput(idx, false);
+            } else {
+                document.getElementById(`select_${idx}`).value = data.val;
+                if(document.getElementById(`input_${idx}`)) document.getElementById(`input_${idx}`).disabled = true;
+                applyResult(idx, data.val);
+            }
+        });
     }
 
-    // --- 계산 로직 ---
+    // 설정 패널 그리기
+    function renderSettingsPanel() {
+        // 비율 설정
+        const ratioContainer = document.getElementById('ratioInputs');
+        ratioContainer.innerHTML = '';
+        Object.keys(currentRatios).forEach(key => {
+            const percent = (currentRatios[key] * 100).toFixed(1); // 소수를 %로 표시
+            ratioContainer.innerHTML += `
+                <div class="input-row">
+                    <span>${key}</span>
+                    <div><input type="number" id="ratio_input_${key}" class="setting-input" value="${percent}"> %</div>
+                </div>
+            `;
+        });
+
+        // 배점 설정
+        const subjectContainer = document.getElementById('subjectInputs');
+        subjectContainer.innerHTML = '';
+        currentSubjects.forEach((sub, idx) => {
+            subjectContainer.innerHTML += `
+                <div class="input-row">
+                    <span>${sub.name}</span>
+                    <div><input type="number" id="subject_input_${idx}" class="setting-input" value="${sub.max}"> 점</div>
+                </div>
+            `;
+        });
+    }
+
+    function toggleSettings() {
+        const content = document.getElementById('settingsContent');
+        const arrow = document.getElementById('settingArrow');
+        if (content.classList.contains('open')) {
+            content.classList.remove('open');
+            arrow.innerText = "▼";
+        } else {
+            content.classList.add('open');
+            arrow.innerText = "▲";
+        }
+    }
+
+    // ============================================
+    // 4. 계산 로직 (수정된 변수 사용)
+    // ============================================
+
+    function calculateScore(maxScore, grade) {
+        if (!grade || currentRatios[grade] === undefined) return 0;
+        const rawScore = maxScore * currentRatios[grade];
+        return Math.ceil(rawScore * 100) / 100; // 셋째자리 올림
+    }
 
     function calcPhys(save = false) {
-        const r = document.getElementById('runG').value;
-        const p = document.getElementById('pushG').value;
-        const s = document.getElementById('sitG').value;
-        
-        const sum = parseInt(r) + parseInt(p) + parseInt(s);
+        const sum = parseInt(document.getElementById('runG').value) + parseInt(document.getElementById('pushG').value) + parseInt(document.getElementById('sitG').value);
         document.getElementById('physSumDisplay').innerText = sum;
-        
         let grade = "불합격";
         if (sum >= 20) grade = "특급";
         else if (sum >= 16) grade = "1급";
@@ -216,31 +410,31 @@
         else if (sum >= 8) grade = "3급";
         else if (sum >= 1) grade = "3급 미만";
         
-        applyResult(1, grade);
-        const sel = document.getElementById('select_1');
-        sel.value = grade;
-
-        if(save) saveToStorage();
+        applyResult(1, grade); // 기초체력 인덱스 1
+        document.getElementById('select_1').value = grade;
+        if(save) saveScoreData();
     }
 
     function handleInput(idx, save = false) {
         const inputEl = document.getElementById(`input_${idx}`);
         const selectEl = document.getElementById(`select_${idx}`);
         const val = parseFloat(inputEl.value);
+        const subName = currentSubjects[idx].name;
+
         if (isNaN(val)) { 
             selectEl.disabled = false; 
             applyResult(idx, ""); 
         } else {
             selectEl.disabled = true;
             let grade = "불합격";
-            if (subjects[idx] === "사격") {
+            if (subName === "사격") {
                 if (val >= 18) grade = "특급"; else if (val >= 16) grade = "1급"; else if (val >= 14) grade = "2급"; else if (val >= 12) grade = "3급"; else if (val >= 1) grade = "3급 미만";
             } else {
                 if (val >= 90) grade = "특급"; else if (val >= 80) grade = "1급"; else if (val >= 70) grade = "2급"; else if (val >= 60) grade = "3급"; else if (val > 0) grade = "3급 미만";
             }
             applyResult(idx, grade);
         }
-        if(save) saveToStorage();
+        if(save) saveScoreData();
     }
 
     function handleSelect(idx, save = false) {
@@ -253,17 +447,17 @@
             if(inputEl) inputEl.disabled = false; 
             applyResult(idx, ""); 
         }
-        if(save) saveToStorage();
+        if(save) saveScoreData();
     }
 
     function applyResult(idx, grade) {
-        const point = grade ? scoreData[subjects[idx]][grade] : 0;
-        const gradeEl = document.getElementById(`grade_${idx}`);
-        const pointEl = document.getElementById(`point_${idx}`);
+        const maxScore = currentSubjects[idx].max;
+        const point = calculateScore(maxScore, grade);
         
+        const gradeEl = document.getElementById(`grade_${idx}`);
         gradeEl.innerText = grade || "-";
         gradeEl.className = `grade-badge ${grade ? 'grade-' + grade.replace(" ", "") : ""}`;
-        pointEl.innerText = point.toFixed(2);
+        document.getElementById(`point_${idx}`).innerText = point.toFixed(2);
         
         const row = document.getElementById(`row_${idx}`);
         if(grade) row.classList.add('active-row'); else row.classList.remove('active-row');
@@ -273,118 +467,80 @@
     function calculateTotal() {
         let total = 0;
         document.querySelectorAll('.display-point').forEach(p => { total += parseFloat(p.innerText); });
-        
         const disp = document.getElementById('totalDisplay');
         disp.innerText = total.toFixed(2);
-        
         const color = total >= 60 ? "#2ecc71" : "#ff7f50";
         disp.style.color = color;
         document.getElementById('progressBar').style.width = Math.min((total / 70 * 100), 100) + "%";
         document.getElementById('progressBar').style.background = color;
     }
 
-    // --- 1. 자동 저장 기능 (LocalStorage) ---
-    
-    function saveToStorage() {
-        const data = {
-            inputs: [],
-            selects: [],
-            phys: {
-                run: document.getElementById('runG').value,
-                push: document.getElementById('pushG').value,
-                sit: document.getElementById('sitG').value
-            }
-        };
+    // ============================================
+    // 5. 점수 데이터 저장/로드 (사용자 입력값)
+    // ============================================
 
-        subjects.forEach((_, idx) => {
+    function saveScoreData() {
+        const data = {
+            inputs: [], selects: [],
+            phys: { run: document.getElementById('runG').value, push: document.getElementById('pushG').value, sit: document.getElementById('sitG').value }
+        };
+        currentSubjects.forEach((_, idx) => {
             const input = document.getElementById(`input_${idx}`);
             const select = document.getElementById(`select_${idx}`);
             data.inputs.push(input ? input.value : "");
             data.selects.push(select ? select.value : "");
         });
-
         localStorage.setItem('militaryScoreData', JSON.stringify(data));
     }
 
-    function loadFromStorage() {
+    function loadScoreDataFromStorage() {
         const saved = localStorage.getItem('militaryScoreData');
         if (!saved) return;
-
         const data = JSON.parse(saved);
-        
-        // 체력 데이터 복구
         if(data.phys) {
             document.getElementById('runG').value = data.phys.run;
             document.getElementById('pushG').value = data.phys.push;
             document.getElementById('sitG').value = data.phys.sit;
-            calcPhys(false); // UI 업데이트 (저장 X)
+            calcPhys(false);
         }
-
-        // 각 과목 데이터 복구
-        subjects.forEach((_, idx) => {
+        currentSubjects.forEach((_, idx) => {
             const input = document.getElementById(`input_${idx}`);
             const select = document.getElementById(`select_${idx}`);
-            
-            if (input && data.inputs[idx]) {
-                input.value = data.inputs[idx];
-                handleInput(idx, false);
-            } else if (select && data.selects[idx]) {
-                select.value = data.selects[idx];
-                handleSelect(idx, false);
-            }
+            if (input && data.inputs[idx]) { input.value = data.inputs[idx]; handleInput(idx, false); } 
+            else if (select && data.selects[idx]) { select.value = data.selects[idx]; handleSelect(idx, false); }
         });
     }
 
     function resetAll() {
-        if(confirm("모든 데이터를 삭제하고 초기화하시겠습니까?")) {
+        if(confirm("입력한 점수 데이터를 모두 삭제하시겠습니까? (설정값은 유지됩니다)")) {
             localStorage.removeItem('militaryScoreData');
             location.reload();
         }
     }
 
-    // --- 2. 이미지 카드 다운로드 기능 (html2canvas) ---
-
     function downloadImage() {
-        // 1. 카드 데이터 최신화
         const today = new Date();
         document.getElementById('cardDate').innerText = `${today.getFullYear()}. ${today.getMonth()+1}. ${today.getDate()}`;
         document.getElementById('cardTotalScore').innerText = document.getElementById('totalDisplay').innerText;
-        
         const tbody = document.getElementById('cardTableBody');
         tbody.innerHTML = '';
         
-        subjects.forEach((sub, idx) => {
+        currentSubjects.forEach((sub, idx) => {
             const grade = document.getElementById(`grade_${idx}`).innerText;
             const point = document.getElementById(`point_${idx}`).innerText;
             if(grade !== "-") {
-                tbody.innerHTML += `
-                    <tr>
-                        <td>${sub}</td>
-                        <td style="color:var(--primary)">${grade}</td>
-                        <td>${point}</td>
-                    </tr>
-                `;
+                tbody.innerHTML += `<tr><td>${sub.name}</td><td style="color:var(--primary)">${grade}</td><td>${point}</td></tr>`;
             }
         });
 
-        if(tbody.innerHTML === '') {
-            alert("저장할 데이터가 없습니다. 점수를 먼저 입력해주세요.");
-            return;
-        }
-
-        // 2. 이미지 캡처 및 다운로드
+        if(tbody.innerHTML === '') { alert("점수를 입력해주세요."); return; }
+        
         const card = document.getElementById('exportCard');
-        // 캡처를 위해 잠시 위치 조정 (화면 밖 -> 화면 안, 투명도 조절 없이)
-        // html2canvas는 display:none 요소를 캡처 못하므로 fixed로 화면 밖 처리 유지
-
         html2canvas(card, { scale: 2 }).then(canvas => {
             const link = document.createElement('a');
             link.download = `교육훈련평가_${today.toISOString().slice(0,10)}.png`;
             link.href = canvas.toDataURL();
             link.click();
-        }).catch(err => {
-            alert("이미지 저장 중 오류가 발생했습니다.");
-            console.error(err);
         });
     }
 
