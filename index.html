@@ -15,6 +15,7 @@
             --active-row: #f0f9ff;
             --score-low: #ff7f50;
             --score-high: #2ecc71;
+            --blue: #3498db;
         }
 
         html, body { 
@@ -44,14 +45,15 @@
 
         .top-logo {
             width: 55px; height: 55px;
-            background-image: url('background.jpg');
-            background-size: cover; background-position: center;
+            background-color: var(--primary);
+            display: flex; align-items: center; justify-content: center;
             border-radius: 12px; border: 1px solid #ddd; flex-shrink: 0;
+            font-size: 1.8rem;
         }
 
         h1 { 
-            margin: 0; font-size: 2.1rem; font-weight: 900; 
-            letter-spacing: -1.5px; color: #1a202c; white-space: nowrap;
+            margin: 0; font-size: 1.8rem; font-weight: 900; 
+            letter-spacing: -1px; color: #1a202c; white-space: nowrap;
         }
 
         .result-summary { 
@@ -60,7 +62,7 @@
             box-sizing: border-box;
         }
         .total-label { font-size: 0.9rem; opacity: 0.8; margin-bottom: 5px; }
-        .total-score { font-size: 3.8rem; font-weight: 900; color: var(--score-low); margin: 0; line-height: 1; transition: color 0.4s; }
+        .total-score { font-size: 3.5rem; font-weight: 900; color: var(--score-low); margin: 0; line-height: 1; transition: color 0.4s; }
         .total-max { font-size: 0.85rem; opacity: 0.7; margin-top: 8px; }
         
         .progress-container {
@@ -71,16 +73,9 @@
 
         .content-area { padding: 20px 8px; box-sizing: border-box; }
         
-        .swipe-notice {
-            display: flex; align-items: center; justify-content: center;
-            font-size: 0.85rem; color: #3498db; font-weight: 600;
-            margin-bottom: 10px; animation: shakeHint 2s ease-in-out infinite;
-        }
-
-        @keyframes shakeHint {
-            0%, 100% { transform: translateX(0); }
-            10%, 30%, 50% { transform: translateX(-5px); }
-            20%, 40% { transform: translateX(5px); }
+        .section-title {
+            font-size: 1.1rem; font-weight: 800; margin: 25px 0 10px 5px;
+            display: flex; align-items: center; gap: 8px; color: #2d3436;
         }
 
         .table-wrapper { 
@@ -88,66 +83,51 @@
             border: 1px solid #eee; border-radius: 14px; background: #fff;
         }
 
-        table { width: 100%; border-collapse: collapse; min-width: 520px; }
-        th { background: #fbfbfc; padding: 15px 5px; font-size: 0.85rem; font-weight: 600; border-bottom: 2px solid #edf2f7; color: #64748b; }
-        td { padding: 12px 4px; border-bottom: 1px solid #f1f5f9; text-align: center; transition: background 0.3s; }
+        table { width: 100%; border-collapse: collapse; min-width: 500px; }
+        th { background: #fbfbfc; padding: 12px 5px; font-size: 0.85rem; font-weight: 600; border-bottom: 2px solid #edf2f7; color: #64748b; }
+        td { padding: 10px 4px; border-bottom: 1px solid #f1f5f9; text-align: center; }
         
-        tr.active-row td { background-color: var(--active-row); }
-
         .score-input, .grade-select { 
-            height: 46px; padding: 0 8px; border: 2px solid #e2e8f0; 
-            border-radius: 10px; text-align: center; font-size: 0.95rem;
-            box-sizing: border-box; transition: all 0.2s ease;
+            height: 40px; padding: 0 5px; border: 2px solid #e2e8f0; 
+            border-radius: 8px; text-align: center; font-size: 0.9rem;
+            box-sizing: border-box; width: 100%; max-width: 100px;
         }
 
-        .score-input { width: 75px; }
-        .grade-select { width: 110px; background-color: #fff; cursor: pointer; }
-
         .grade-badge { 
-            display: inline-block; padding: 5px 10px; border-radius: 6px; 
-            font-weight: 800; color: white; font-size: 0.8rem; background: #94a3b8;
+            display: inline-block; padding: 4px 8px; border-radius: 6px; 
+            font-weight: 800; color: white; font-size: 0.75rem; background: #94a3b8;
         }
         .grade-특급 { background-color: var(--gold); }
         .grade-3급미만, .grade-불합격 { background-color: var(--danger); }
         .grade-1급, .grade-2급, .grade-3급 { background-color: #34495e; }
 
-        .info-card { 
-            margin-top: 15px; padding: 18px; background: #f8fafc;
-            border: 1px solid #e2e8f0; color: #475569; border-radius: 14px;
-            font-size: 0.9rem; line-height: 1.7;
+        .physical-calc-card {
+            margin-top: 20px; padding: 20px; border: 2px solid var(--blue);
+            border-radius: 16px; background-color: #f0f7ff;
         }
 
-        /* 평가 체계 가이드 */
-        .system-guide {
-            margin-top: 20px; padding: 18px; background: #fff;
-            border: 2px dashed #cbd5e1; border-radius: 14px;
-            font-size: 0.85rem; color: #64748b;
+        .physical-result-bar {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px dashed var(--blue);
         }
-        .guide-table { width: 100%; border: none; min-width: unset; margin-top: 10px; }
-        .guide-table th { background: #f1f5f9; padding: 8px; color: #475569; border: 1px solid #e2e8f0; }
-        .guide-table td { padding: 8px; border: 1px solid #e2e8f0; color: #1e293b; background: #fff !important; }
+
+        .info-card { 
+            margin-top: 20px; padding: 15px; background: #f8fafc;
+            border: 1px solid #e2e8f0; color: #475569; border-radius: 14px;
+            font-size: 0.85rem; line-height: 1.6;
+        }
 
         .action-area { padding: 20px 10px 40px; display: flex; justify-content: center; }
-
         .reset-btn {
             background-color: #f1f2f6; color: #7f8c8d; border: none;
-            padding: 12px 30px; border-radius: 10px; font-weight: 700;
-            font-size: 0.95rem; cursor: pointer; transition: all 0.2s;
-            display: flex; align-items: center; gap: 8px;
+            padding: 12px 30px; border-radius: 10px; font-weight: 700; cursor: pointer;
         }
 
-        .reset-btn:hover { background-color: #dfe4ea; color: var(--danger); }
+        footer { text-align: center; padding: 25px; font-size: 0.8rem; color: #94a3b8; background: #f1f5f9; }
 
-        footer {
-            text-align: center; padding: 25px; font-size: 0.85rem;
-            color: #94a3b8; background: #f1f5f9; width: 100%; box-sizing: border-box;
-        }
-
-        .no-input-text { color: #2980b9; font-size: 0.8rem; font-weight: 700; }
-
-        @media (max-width: 400px) {
-            h1 { font-size: 1.8rem; }
-            .total-score { font-size: 3.2rem; }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .total-score { font-size: 3rem; }
         }
     </style>
 </head>
@@ -156,12 +136,12 @@
 <div class="container">
     <div class="top-header">
         <div class="title-area">
-            <div class="top-logo"></div>
+            <div class="top-logo">🎖️</div>
             <h1>교육훈련 점수 종합</h1>
         </div>
         
         <div class="result-summary">
-            <div class="total-label">교육훈련 환산 점수 (70점 만점)</div>
+            <div class="total-label">교육훈련 환산 총점</div>
             <div id="totalDisplay" class="total-score">0.00</div>
             <div class="total-max">/ 70.00 점</div>
             <div class="progress-container">
@@ -171,80 +151,114 @@
     </div>
 
     <div class="content-area">
-        <div class="swipe-notice">
-            <span>◀ 표를 좌우로 밀어보세요 ▶</span>
-        </div>
-
+        <div class="section-title">📊 과목별 점수 입력</div>
         <div class="table-wrapper">
             <table>
                 <thead>
                     <tr>
-                        <th style="width: 20%;">과목명</th>
-                        <th style="width: 22%;">점수 입력</th>
-                        <th style="width: 23%;">등급 선택</th>
-                        <th style="width: 15%;">판정</th>
-                        <th style="width: 20%;">환산점수</th>
+                        <th style="width: 25%;">과목명</th>
+                        <th style="width: 25%;">점수 입력</th>
+                        <th style="width: 25%;">등급 판정</th>
+                        <th style="width: 25%;">환산점수</th>
                     </tr>
                 </thead>
                 <tbody id="scoreTableBody"></tbody>
             </table>
         </div>
 
-        <div class="info-card">
-            <strong>💡 사용 팁</strong><br>
-            • 과목별 <b>점수 또는 등급</b>을 입력하면 기준표에 따른 <b>환산점수</b>가 산출됩니다.<br>
-            • <b>기초체력</b>은 등급을 직접 선택해야 점수가 반영됩니다.
+        <div class="section-title">🏃 기초체력 세부 계산기</div>
+        <div class="physical-calc-card">
+            <div class="physical-result-bar">
+                <span style="font-weight: 800; color: var(--blue);">체력 종합 판정</span>
+                <div>
+                    <span id="physicalSummaryGrade" class="grade-badge">-</span>
+                    <span id="physicalSummaryScore" style="font-weight: 800; margin-left: 5px; color: var(--primary);">0점</span>
+                </div>
+            </div>
+            
+            <div class="table-wrapper">
+                <table style="min-width: 400px;">
+                    <thead>
+                        <tr>
+                            <th>종목</th>
+                            <th>등급 선택</th>
+                            <th>획득 점수</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>달리기 (3km)</b></td>
+                            <td>
+                                <select class="grade-select" onchange="calcPhysical()" id="runGrade">
+                                    <option value="0">선택</option>
+                                    <option value="10">특급 (10점)</option>
+                                    <option value="8">1급 (8점)</option>
+                                    <option value="6">2급 (6점)</option>
+                                    <option value="4">3급 (4점)</option>
+                                    <option value="0">3급미만 (0점)</option>
+                                    <option value="0">불합격 (0점)</option>
+                                </select>
+                            </td>
+                            <td id="runScore">0</td>
+                        </tr>
+                        <tr>
+                            <td><b>팔굽혀펴기</b></td>
+                            <td>
+                                <select class="grade-select" onchange="calcPhysical()" id="pushupGrade">
+                                    <option value="0">선택</option>
+                                    <option value="5">특급 (5점)</option>
+                                    <option value="4">1급 (4점)</option>
+                                    <option value="3">2급 (3점)</option>
+                                    <option value="2">3급 (2점)</option>
+                                    <option value="0">3급미만 (0점)</option>
+                                    <option value="0">불합격 (0점)</option>
+                                </select>
+                            </td>
+                            <td id="pushupScore">0</td>
+                        </tr>
+                        <tr>
+                            <td><b>윗몸일으키기</b></td>
+                            <td>
+                                <select class="grade-select" onchange="calcPhysical()" id="situpGrade">
+                                    <option value="0">선택</option>
+                                    <option value="5">특급 (5점)</option>
+                                    <option value="4">1급 (4점)</option>
+                                    <option value="3">2급 (3점)</option>
+                                    <option value="2">3급 (2점)</option>
+                                    <option value="0">3급미만 (0점)</option>
+                                    <option value="0">불합격 (0점)</option>
+                                </select>
+                            </td>
+                            <td id="situpScore">0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p style="font-size: 0.75rem; color: #7f8c8d; margin-top: 10px;">* 세 종목의 합산 점수에 따라 체력 종합 등급이 결정되며, 상단 표에 자동 반영됩니다.</p>
         </div>
 
-        <div class="system-guide">
-            <strong>📋 병 진급평가 점수 산정 체계 안내</strong><br>
-            본 시스템으로 산출되는 점수는 전체 평가 항목 중 <b>교육훈련(70점)</b>에 해당합니다. 
-            최종 진급 여부는 아래 항목을 합산한 <b>100점 만점</b>을 기준으로 결정됩니다.
-            
-            <table class="guide-table">
-                <thead>
-                    <tr>
-                        <th>평가 항목</th>
-                        <th>배점</th>
-                        <th>평가 방법</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><b>교육훈련</b></td>
-                        <td><b>70점</b></td>
-                        <td>사격, 체력, 주특기 등</td>
-                    </tr>
-                    <tr>
-                        <td><b>병영생활</b></td>
-                        <td><b>30점</b></td>
-                        <td>상/벌점, 복무태도 등</td>
-                    </tr>
-                </tbody>
-            </table>
-            <p style="margin-top:10px; font-size:0.8rem;">* 본 도구의 결과만으로는 진급이 결정되지 않으며, 병영생활 점수는 부대별 자체 기준에 따라 별도로 관리됩니다.</p>
+        <div class="info-card">
+            <strong>💡 등급 기준 정보</strong><br>
+            • <b>체력종합:</b> 특급(20), 1급(17~19), 2급(14~16), 3급(11~13), 3급미만(1~10)<br>
+            • <b>사격:</b> 특급(18↑), 1급(16), 2급(14), 3급(12)
         </div>
     </div>
 
     <div class="action-area">
-        <button class="reset-btn" onclick="resetAll()">
-            🔄 데이터 초기화
-        </button>
+        <button class="reset-btn" onclick="location.reload()">🔄 전체 초기화</button>
     </div>
 </div>
 
-<footer>
-    문의 : 국군수송사령부 교육장교
-</footer>
+<footer>문의 : 국군수송사령부 교육장교</footer>
 
 <script>
     const scoreData = {
-        "정신전력": { "특급": 10, "1급": 9.29, "2급": 8.58, "3급": 7.86, "3급 미만": 5.72, "불합격": 4.29 },
-        "기초체력": { "특급": 10, "1급": 9.29, "2급": 8.58, "3급": 7.86, "3급 미만": 5.72, "불합격": 4.29 },
-        "사격": { "특급": 10, "1급": 9.29, "2급": 8.58, "3급": 7.86, "3급 미만": 5.72, "불합격": 4.29 },
-        "핵 및 화생방": { "특급": 5, "1급": 4.65, "2급": 4.29, "3급": 3.93, "3급 미만": 2.56, "불합격": 2.15 },
-        "TCCC": { "특급": 5, "1급": 4.65, "2급": 4.29, "3급": 3.93, "3급 미만": 2.56, "불합격": 2.15 },
-        "주특기": { "특급": 30, "1급": 27.86, "2급": 25.72, "3급": 23.58, "3급 미만": 17.15, "불합격": 12.86 }
+        "정신전력": { "특급": 10, "1급": 9.29, "2급": 8.58, "3급": 7.15, "3급 미만": 5.72, "불합격": 4.29 },
+        "기초체력": { "특급": 10, "1급": 9.29, "2급": 8.58, "3급": 7.15, "3급 미만": 5.72, "불합격": 4.29 },
+        "사격": { "특급": 10, "1급": 9.29, "2급": 8.58, "3급": 7.15, "3급 미만": 5.72, "불합격": 4.29 },
+        "핵 및 화생방": { "특급": 5, "1급": 4.65, "2급": 4.29, "3급": 3.58, "3급 미만": 2.56, "불합격": 2.15 },
+        "TCCC": { "특급": 5, "1급": 4.65, "2급": 4.29, "3급": 3.58, "3급 미만": 2.56, "불합격": 2.15 },
+        "주특기": { "특급": 30, "1급": 27.86, "2급": 25.72, "3급": 21.43, "3급 미만": 17.15, "불합격": 12.86 }
     };
 
     const subjects = Object.keys(scoreData);
@@ -253,106 +267,82 @@
         const tbody = document.getElementById('scoreTableBody');
         tbody.innerHTML = '';
         subjects.forEach((sub, idx) => {
+            const isPhysical = sub === "기초체력";
             const row = document.createElement('tr');
             row.id = `row_${idx}`;
-            const isPhysical = sub === "기초체력";
-            const placeholderText = sub === "사격" ? "0-20" : "0-100";
-            
-            const inputHtml = isPhysical 
-                ? `<span class="no-input-text">등급을 고르세요</span>` 
-                : `<input type="number" class="score-input" id="input_${idx}" placeholder="${placeholderText}" oninput="handleInput(${idx})">`;
             
             row.innerHTML = `
-                <td><span class="subject-name">${sub}</span></td>
-                <td>${inputHtml}</td>
+                <td><b>${sub}</b></td>
                 <td>
-                    <select class="grade-select" id="select_${idx}" onchange="handleSelect(${idx})">
-                        <option value="">등급 선택</option>
-                        <option value="특급">특급</option>
-                        <option value="1급">1급</option>
-                        <option value="2급">2급</option>
-                        <option value="3급">3급</option>
-                        <option value="3급 미만">3급 미만</option>
-                        <option value="불합격">불합격</option>
-                    </select>
+                    ${isPhysical ? `<span style="font-size:0.8rem; color:var(--blue)">하단에서 계산</span>` : 
+                    `<input type="number" class="score-input" id="input_${idx}" placeholder="${sub==='사격'?'0-20':'0-100'}" oninput="handleInput(${idx})">`}
                 </td>
-                <td><span class="display-grade" id="grade_${idx}">-</span></td>
-                <td><span class="display-point" id="point_${idx}">0.00</span></td>
+                <td><span id="grade_${idx}" class="grade-badge">-</span></td>
+                <td><span id="point_${idx}" class="display-point">0.00</span></td>
             `;
             tbody.appendChild(row);
         });
     }
 
-    window.handleInput = function(idx) {
-        const inputEl = document.getElementById(`input_${idx}`);
-        const selectEl = document.getElementById(`select_${idx}`);
-        if (!inputEl) return;
+    // 체력 계산기 로직
+    function calcPhysical() {
+        const r = parseInt(document.getElementById('runGrade').value);
+        const p = parseInt(document.getElementById('pushupGrade').value);
+        const s = parseInt(document.getElementById('situpGrade').value);
         
-        let val = inputEl.value;
-        const subName = subjects[idx];
+        document.getElementById('runScore').innerText = r;
+        document.getElementById('pushupScore').innerText = p;
+        document.getElementById('situpScore').innerText = s;
+        
+        const sum = r + p + s;
+        document.getElementById('physicalSummaryScore').innerText = sum + "점";
+        
+        let grade = "불합격";
+        if (sum >= 20) grade = "특급";
+        else if (sum >= 17) grade = "1급";
+        else if (sum >= 14) grade = "2급";
+        else if (sum >= 11) grade = "3급";
+        else if (sum >= 1) grade = "3급 미만";
 
-        if (val !== "") {
-            const numVal = parseFloat(val);
-            const maxVal = subName === "사격" ? 20 : 100;
-            if (numVal < 0 || numVal > maxVal) {
-                alert(`${subName}의 입력 범위는 0에서 ${maxVal}까지입니다.`);
-                inputEl.value = "";
-                selectEl.disabled = false;
-                applyResult(idx, "");
-                return;
-            }
+        const badge = document.getElementById('physicalSummaryGrade');
+        badge.innerText = grade;
+        badge.className = `grade-badge grade-${grade.replace(" ", "")}`;
 
-            selectEl.disabled = true;
-            let grade = "";
-            
-            if (subName === "사격") {
-                if (numVal >= 18) grade = "특급";
-                else if (numVal >= 16) grade = "1급";
-                else if (numVal >= 14) grade = "2급";
-                else if (numVal >= 12) grade = "3급";
-                else if (numVal >= 1) grade = "3급 미만";
-                else grade = "불합격";
-            } else {
-                if (numVal >= 90) grade = "특급";
-                else if (numVal >= 80) grade = "1급";
-                else if (numVal >= 70) grade = "2급";
-                else if (numVal >= 60) grade = "3급";
-                else if (numVal > 0) grade = "3급 미만";
-                else grade = "불합격";
-            }
-            applyResult(idx, grade);
-        } else {
-            selectEl.disabled = false;
-            applyResult(idx, "");
-        }
+        // 상단 표의 기초체력(index 1)에 결과 반영
+        updateRow(1, grade);
     }
 
-    window.handleSelect = function(idx) {
-        const inputEl = document.getElementById(`input_${idx}`);
-        const selectEl = document.getElementById(`select_${idx}`);
-        
-        if (selectEl.value !== "") {
-            if(inputEl) { inputEl.value = ""; inputEl.disabled = true; }
-            applyResult(idx, selectEl.value);
+    function handleInput(idx) {
+        const val = parseFloat(document.getElementById(`input_${idx}`).value);
+        const subName = subjects[idx];
+        if (isNaN(val)) { updateRow(idx, ""); return; }
+
+        let grade = "불합격";
+        if (subName === "사격") {
+            if (val >= 18) grade = "특급";
+            else if (val >= 16) grade = "1급";
+            else if (val >= 14) grade = "2급";
+            else if (val >= 12) grade = "3급";
+            else if (val >= 1) grade = "3급 미만";
         } else {
-            if(inputEl) inputEl.disabled = false;
-            applyResult(idx, "");
+            if (val >= 90) grade = "특급";
+            else if (val >= 80) grade = "1급";
+            else if (val >= 70) grade = "2급";
+            else if (val >= 60) grade = "3급";
+            else if (val > 0) grade = "3급 미만";
         }
+        updateRow(idx, grade);
     }
 
-    function applyResult(idx, grade) {
+    function updateRow(idx, grade) {
         const subName = subjects[idx];
-        const row = document.getElementById(`row_${idx}`);
         const point = grade ? scoreData[subName][grade] : 0;
-        const cleanGrade = grade.replace(" ", ""); 
-        const badgeHtml = grade ? `<span class="grade-badge grade-${cleanGrade}">${grade}</span>` : "-";
         
-        document.getElementById(`grade_${idx}`).innerHTML = badgeHtml;
+        const gradeEl = document.getElementById(`grade_${idx}`);
+        gradeEl.innerText = grade || "-";
+        gradeEl.className = `grade-badge ${grade ? 'grade-' + grade.replace(" ", "") : ""}`;
+        
         document.getElementById(`point_${idx}`).innerText = point.toFixed(2);
-        
-        if (grade) row.classList.add('active-row');
-        else row.classList.remove('active-row');
-        
         calculateTotal();
     }
 
@@ -364,30 +354,13 @@
         const progressBar = document.getElementById('progressBar');
         totalDisplay.innerText = total.toFixed(2);
         
-        const lowColor = "#ff7f50";
-        const highColor = "#2ecc71";
-        
-        if (total >= 60) {
-            totalDisplay.style.color = highColor;
-            progressBar.style.background = highColor;
-        } else {
-            totalDisplay.style.color = lowColor;
-            progressBar.style.background = lowColor;
-        }
-        
-        const percent = (total / 70) * 100;
-        progressBar.style.width = Math.min(percent, 100) + "%";
-    }
-
-    window.resetAll = function() {
-        if(confirm("입력하신 모든 데이터가 삭제됩니다. 초기화하시겠습니까?")) {
-            init();
-            calculateTotal();
-        }
+        const color = total >= 60 ? "#2ecc71" : "#ff7f50";
+        totalDisplay.style.color = color;
+        progressBar.style.background = color;
+        progressBar.style.width = Math.min((total / 70) * 100, 100) + "%";
     }
 
     window.onload = init;
 </script>
 </body>
 </html>
-
